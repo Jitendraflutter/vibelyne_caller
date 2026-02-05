@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_colors.dart';
-import 'package:voicly/core/route/app_route.dart';
-import 'package:voicly/features/auth/auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -36,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Redirect after 3 seconds
     Future.delayed(Duration(seconds: 3), () {
-      AppRoute.pushReplacement(AuthScreen());
+      //AppRoute.pushReplacement(AuthScreen());
     });
   }
 

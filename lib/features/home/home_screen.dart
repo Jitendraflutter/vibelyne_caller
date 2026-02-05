@@ -1,13 +1,20 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
+<<<<<<< Updated upstream
 import 'package:voicly/core/route/app_route.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
 import 'package:voicly/features/profile/profile_screen.dart';
 import 'package:voicly/widget/glass_container.dart';
+=======
+import 'package:voicly/core/route/routes.dart';
+>>>>>>> Stashed changes
 import 'package:voicly/widget/screen_wrapper.dart';
+
 import '../../core/constants/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -76,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => AppRoute.push(CoinScreen()),
+              onPressed: () => Get.toNamed(AppRoutes.COIN),
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -120,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(width: 12),
             CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => AppRoute.push(ProfileScreen()),
+              onPressed: () => Get.toNamed(AppRoutes.PROFILE),
               child: Container(
                 padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
