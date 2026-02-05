@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voicly/core/utils/local_storage.dart';
 
 import '../core/route/routes.dart';
 
@@ -33,6 +34,10 @@ class SplashController extends GetxController
 
   void _goNext() async {
     await Future.delayed(const Duration(milliseconds: 300));
+    if (LocalStorage.getUid().isNotEmpty) {
+      Get.offAllNamed(AppRoutes.HOME);
+      return;
+    }
     Get.offAllNamed(
       AppRoutes.LOGIN, // or AppRoutes.BOTTOM_BAR
     );

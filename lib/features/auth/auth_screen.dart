@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/auth/widget/phone_input.dart';
-
-import '../../core/constants/app_colors.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -22,21 +23,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: PhoneInputScreen(onNext: _nextPage),
-
-      // PageView(
-      //   controller: _pageController,
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   children: [
-      //
-      //     // OTPScreen(onNext: _nextPage),
-      //     // ProfileSetupScreen(
-      //     //   onComplete: () => AppRoute.pushAndRemoveAll(HomeScreen()),
-      //     // ),
-      //   ],
-      // ),
+    return ScreenWrapper(
+      child: PhoneInputScreen(onNext: () => Get.offAndToNamed(AppRoutes.HOME)),
     );
   }
 }

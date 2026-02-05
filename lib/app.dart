@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
+import 'core/constants/app_colors.dart';
 import 'core/route/routes.dart';
 
 class App extends StatelessWidget {
@@ -8,11 +10,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      // navigatorKey: AppRoute.navigatorKey,
-      initialRoute: AppRoutes.getInitialRoute(),
-      getPages: AppPages.pages,
+    return GlobalLoaderOverlay(
+      overlayWidgetBuilder: (_) => const Center(
+        child: CircularProgressIndicator.adaptive(
+          valueColor: AlwaysStoppedAnimation(AppColors.primary),
+        ),
+      ),
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.fadeIn,
+        initialRoute: AppRoutes.getInitialRoute(),
+        getPages: AppPages.pages,
+      ),
     );
   }
 }

@@ -1,10 +1,13 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/core/utils/local_storage.dart';
+import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
@@ -15,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Get.find<AuthService>();
     return ScreenWrapper(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -47,148 +51,119 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                _buildProfileHeader(),
-                const SizedBox(height: 30),
+            child: Obx(() {
+              final user = authService.currentUser.value;
 
-                // Section 1: Account
-                _buildSectionTitle("Account Management"),
-                const SizedBox(height: 5),
-                GlassContainer(
-                  child: Column(
-                    children: [
-                      _profileTile(
-                        CupertinoIcons.person_crop_circle_badge_checkmark,
-                        "Complete Profile",
-                        "90% Finished",
-                      ),
-                      _profileTile(
-                        CupertinoIcons.shield_fill,
-                        "Account Settings",
-                        "Security & Passwords",
-                      ),
-                      _profileTile(
-                        CupertinoIcons.slash_circle,
-                        "Blocked Users",
-                        "Manage restrictions",
-                      ),
-                    ],
+              // Fallback to LocalStorage if stream is still loading
+              final name = user?.fullName ?? LocalStorage.getFirstName();
+              final email = user?.email ?? LocalStorage.getEmail();
+              final pic = user?.profilePic ?? LocalStorage.getProfileUrl();
+              final completion = user?.completionText ?? "0%";
+              return Column(
+                children: [
+                  const SizedBox(height: 20),
+                  _buildProfileHeader(
+                    name: name,
+                    subtitle: email,
+                    imageUrl: pic,
+                    // Use the getter we created in the UserModel
+                    percent: user?.completionPercentage ?? 0.0,
                   ),
-                ),
+                  const SizedBox(height: 30),
 
-                const SizedBox(height: 5),
-
-                _buildSectionTitle("Preferences"),
-                const SizedBox(height: 5),
-
-                GlassContainer(
-                  child: Column(
-                    children: [
-                      _profileTile(
-                        CupertinoIcons.bell_fill,
-                        "Notifications",
-                        "Sounds & Alerts",
-                      ),
-                      _profileTile(
-                        CupertinoIcons.eye_slash_fill,
-                        "Privacy Policy",
-                        "Data usage & safety",
-                      ),
-                      _profileTile(
-                        onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
-                        CupertinoIcons.gear_alt,
-                        "Language",
-                        "App language settings",
-                      ),
-                      _profileTile(
-                        CupertinoIcons.doc_text_fill,
-                        "Terms & Conditions",
-                        "Legal agreements",
-                      ),
-                    ],
+                  // Section 1: Account
+                  _buildSectionTitle("Account Management"),
+                  const SizedBox(height: 5),
+                  GlassContainer(
+                    child: Column(
+                      children: [
+                        _profileTile(
+                          CupertinoIcons.person_crop_circle_badge_checkmark,
+                          "Complete Profile",
+                          "$completion% Finished",
+                          onPressed: () =>
+                              Get.toNamed(AppRoutes.UPDATE_PROFILE),
+                        ),
+                        _profileTile(
+                          CupertinoIcons.shield_fill,
+                          "Account Settings",
+                          "Security & Passwords",
+                        ),
+                        _profileTile(
+                          CupertinoIcons.slash_circle,
+                          "Blocked Users",
+                          "Manage restrictions",
+                        ),
+                      ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 5),
-                _buildSectionTitle("Support"),
-                const SizedBox(height: 5),
+                  const SizedBox(height: 5),
 
-                GlassContainer(
-                  child: Column(
-                    children: [
-                      _profileTile(
-                        CupertinoIcons.question_circle_fill,
-                        "Help Center",
-                        "FAQs & Chat Support",
-                      ),
-                      _profileTile(
-                        CupertinoIcons.square_arrow_right,
-                        "Logout",
-                        null,
-                        isDestructive: true,
-                      ),
-                    ],
+                  _buildSectionTitle("Preferences"),
+                  const SizedBox(height: 5),
+
+                  GlassContainer(
+                    child: Column(
+                      children: [
+                        _profileTile(
+                          CupertinoIcons.bell_fill,
+                          "Notifications",
+                          "Sounds & Alerts",
+                        ),
+                        _profileTile(
+                          CupertinoIcons.eye_slash_fill,
+                          "Privacy Policy",
+                          "Data usage & safety",
+                        ),
+                        _profileTile(
+                          onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
+                          CupertinoIcons.gear_alt,
+                          "Language",
+                          "App language settings",
+                        ),
+                        _profileTile(
+                          CupertinoIcons.doc_text_fill,
+                          "Terms & Conditions",
+                          "Legal agreements",
+                        ),
+                      ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 100),
-              ],
-            ),
+                  const SizedBox(height: 5),
+                  _buildSectionTitle("Support"),
+                  const SizedBox(height: 5),
+
+                  GlassContainer(
+                    child: Column(
+                      children: [
+                        _profileTile(
+                          CupertinoIcons.question_circle_fill,
+                          "Help Center",
+                          onPressed: () {},
+                          "FAQs & Chat Support",
+                        ),
+                        _profileTile(
+                          CupertinoIcons.square_arrow_right,
+                          onPressed: () {
+                            Get.offAndToNamed(AppRoutes.LOGIN);
+                          },
+                          "Logout",
+                          "",
+                          isDestructive: true,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 100),
+                ],
+              );
+            }),
           ),
         ],
       ),
-    );
-  }
-
-  // --- PROFILE HEADER WITH GLOW ---
-  Widget _buildProfileHeader() {
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: AppColors.logoGradient,
-              ),
-              child: const CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.white,
-                backgroundImage: NetworkImage(AppAssets.iconProfile),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                CupertinoIcons.camera_fill,
-                size: 18,
-                color: AppColors.primaryPurple,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const Text(
-          "Aksbyte",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: AppColors.onBackground,
-          ),
-        ),
-        Text(
-          "@flutter_dev_3yoe",
-          style: TextStyle(color: AppColors.onBackground.withOpacity(0.6)),
-        ),
-      ],
     );
   }
 
@@ -299,6 +274,80 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProfileHeader({
+    required String name,
+    required String subtitle,
+    required String imageUrl,
+    required double percent,
+  }) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            // Outer Progress Ring
+            SizedBox(
+              width: 110,
+              height: 110,
+              child: CircularProgressIndicator(
+                value: percent,
+                strokeWidth: 4,
+                backgroundColor: Colors.white10,
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  AppColors.primaryPurple,
+                ),
+              ),
+            ),
+            // Profile Picture
+            Hero(
+              tag: "profile_pic",
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white12,
+                  backgroundImage: CachedNetworkImageProvider(
+                    imageUrl.isEmpty ? AppAssets.iconProfile : imageUrl,
+                  ),
+                ),
+              ),
+            ),
+            // Camera Icon Positioned
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  CupertinoIcons.camera_fill,
+                  size: 16,
+                  color: AppColors.primaryPurple,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Text(
+          name,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: AppColors.onBackground,
+          ),
+        ),
+        Text(
+          subtitle,
+          style: TextStyle(color: AppColors.onBackground.withOpacity(0.6)),
+        ),
+      ],
     );
   }
 }

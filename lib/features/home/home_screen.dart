@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
@@ -23,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Get.find<AuthService>();
     return ScreenWrapper(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -42,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     horizontal: 20,
                     vertical: 10,
                   ),
-                  title: _buildAppBarContent(),
+                  title: _buildAppBarContent(authService),
                   // background: Container(
                   //   color: AppColors.background.withOpacity(0.4),
                   // ),
@@ -61,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAppBarContent() {
+  Widget _buildAppBarContent(AuthService auth) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -106,14 +109,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
-                      "1,250",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onBackground,
-                      ),
-                    ),
+                    Obx(() {
+                      final user = auth.currentUser.value;
+                      return Text(
+                        (auth.currentUser.value?.points ?? 0).toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.onBackground,
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -122,19 +128,35 @@ class _HomeScreenState extends State<HomeScreen> {
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: () => Get.toNamed(AppRoutes.PROFILE),
-              child: Container(
-                padding: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
-                ),
-                child: Icon(
-                  CupertinoIcons.person_circle,
-                  color: AppColors.onBackground,
-                  size: 18,
-                ),
-              ),
+              child: Obx(() {
+                final user = auth.currentUser.value;
+
+                return Hero(
+                  tag: "profile_pic",
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: user?.profilePic ?? "",
+                      height: 36,
+                      width: 36,
+                      fit: BoxFit.fill,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                value: downloadProgress.progress,
+                              ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
+                );
+              }),
             ),
           ],
         ),

@@ -1,24 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/core/utils/local_storage.dart';
+import 'package:voicly/model/user_model.dart';
+import 'package:voicly/networks/user_service.dart';
 
 class LoginController extends GetxController {
   final _googleSignIn = GoogleSignIn.instance;
   bool _isGoogleSignInInitialized = false;
-
-  final emailController = TextEditingController(
-    text: kReleaseMode ? "" : "test@gmail.com",
-  );
-
-  final mobileController = TextEditingController();
-  final passwordController = TextEditingController(
-    text: kReleaseMode ? "" : "test12345678",
-  );
-
   final formKey = GlobalKey<FormState>();
-
+  final UserRepository _userRepo = Get.find<UserRepository>();
   var isPasswordHidden = true.obs;
   RxBool isLoading = false.obs;
   @override
@@ -27,37 +20,6 @@ class LoginController extends GetxController {
     // TODO: implement onReady
     super.onReady();
   }
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
-
-  void togglePasswordVisibility() {
-    isPasswordHidden.value = !isPasswordHidden.value;
-  }
-
-  // void validateGoogleToken(String token) async {
-  //   try {
-  //     final fcmToken = await FirebaseMessaging.instance.getToken();
-  //     final res = await _auth.validateGoogleToken({
-  //       "firebase_token": token,
-  //       "fcm_token": fcmToken,
-  //     });
-  //
-  //     res.fold((l) => errorSnack(l.message), (data) {
-  //       if (data.code == 200 || data.code == 201) {
-  //
-  //       } else {
-  //         warningSnack(data.error?.details?.toString() ?? "");
-  //       }
-  //     });
-  //   } finally {
-  //     // TODO
-  //   }
-  // }
 
   Future<void> _initializeGoogleSignIn() async {
     try {
@@ -71,11 +33,6 @@ class LoginController extends GetxController {
       await _initializeGoogleSignIn();
     }
   }
-
-  // 2. Reactive variable to hold the user
-  // Rxn is a reactive nullable type (Rx<GoogleSignInAccount?>)
-
-  // Method to Sign In
 
   Future<GoogleSignInAccount> loginWithGoogle() async {
     await _ensureGoogleSignInInitialized();
@@ -92,22 +49,57 @@ class LoginController extends GetxController {
   }
 
   ///TODO while authenticating firebase
-  Future<UserCredential> signInWithGoogleFirebase() async {
-    await _ensureGoogleSignInInitialized();
-    //final GoogleSignInAccount? googleUser =_googleSignIn.authenticate();
-    final GoogleSignInAccount account = await _googleSignIn.authenticate(
-      // Specify required scopes
-    );
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = account.authentication;
+  Future<void> signInWithGoogleFirebase() async {
+    try {
+      await _ensureGoogleSignInInitialized();
+      final GoogleSignInAccount account = await _googleSignIn.authenticate();
+      final GoogleSignInAuthentication googleAuth = account.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      User? firebaseUser = userCredential.user;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
+      if (firebaseUser != null) {
+        // 4. Prepare User Model
+        UserModel newUser = UserModel(
+          uid: firebaseUser.uid,
+          fullName: firebaseUser.displayName ?? "",
+          email: firebaseUser.email ?? "",
+          profilePic: firebaseUser.photoURL ?? "",
+          gender: "Male", // To be filled by user
+          points: 100, // Default points for new users
+          isActive: true,
+          bio: "",
+        );
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+        // 5. CALL REPOSITORY: Create only if not exists
+        await _userRepo.createUserIfNotExist(newUser);
+        final user = await _userRepo.watchUser(firebaseUser.uid).first;
+        _saveUserToLocal(user);
+        Get.offAllNamed(AppRoutes.HOME);
+      }
+    } catch (error) {
+      debugPrint('Login error: $error');
+      Get.snackbar(
+        'Login Error',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void _saveUserToLocal(UserModel user) {
+    LocalStorage.setUid(user.uid);
+    LocalStorage.setEmail(user.email);
+    LocalStorage.setFirstName(user.fullName); // You can split name if needed
+    LocalStorage.setProfileUrl(user.profilePic);
+    LocalStorage.setPoints(user.points);
+    // Setting a mock access token or using Firebase UID as token for your middleware
+    LocalStorage.setAccessToken(user.uid);
   }
 
   // Method to Sign Out

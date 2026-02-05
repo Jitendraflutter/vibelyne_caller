@@ -13,17 +13,16 @@ class LocalStorage {
   static const _selectedAddressDetails = "selected_address_details";
   static const _roles = "roles";
 
-  // ================= Network Cache Key =================
-  static const _homeCache = "home_cache";
-  static const _bannerCache = "banner_cache";
-  static const _homeUpdatedAt = "home_updated_at";
-  static const _bannerUpdatedAt = "banner_updated_at";
-  static const state = 'master_state';
-  static const category = 'master_category';
-  static const cart = 'cart';
-  static const favorite = 'favorite';
-  static const order = 'order';
-  static const author = 'master_author';
+  //Added userId
+  static const _uid = "uid";
+  static const _points = "points";
+
+  // Add these methods to LocalStorage class
+  static void setUid(String val) => _storage.write(_uid, val);
+  static String getUid() => _storage.read(_uid) ?? "";
+
+  static void setPoints(int val) => _storage.write(_points, val);
+  static int getPoints() => _storage.read(_points) ?? 0;
 
   //Write And read List
   /// Save list (String / int / Map)
@@ -50,45 +49,6 @@ class LocalStorage {
     final data = _storage.read(key);
     if (data == null) return null;
     return List<String>.from(data);
-  }
-
-  // ================= OFFLINE-FIRST SETTERS =================
-
-  static void saveHomeCache(String json) {
-    _storage.write(_homeCache, json);
-    _storage.write(_homeUpdatedAt, DateTime.now().toIso8601String());
-  }
-
-  static void saveBannerCache(String json) {
-    _storage.write(_bannerCache, json);
-    _storage.write(_bannerUpdatedAt, DateTime.now().toIso8601String());
-  }
-
-  // ================= OFFLINE-FIRST GETTERS =================
-
-  static String? getHomeCache() {
-    return _storage.read(_homeCache);
-  }
-
-  static String? getBannerCache() => _storage.read(_bannerCache);
-
-  static DateTime? getHomeUpdatedAt() {
-    final val = _storage.read(_homeUpdatedAt);
-    return val != null ? DateTime.parse(val) : null;
-  }
-
-  static DateTime? getBannerUpdatedAt() {
-    final val = _storage.read(_bannerUpdatedAt);
-    return val != null ? DateTime.parse(val) : null;
-  }
-
-  // ================= CLEAR ONLY API CACHE =================
-
-  static void clearApiCache() {
-    _storage.remove(_homeCache);
-    _storage.remove(_bannerCache);
-    _storage.remove(_homeUpdatedAt);
-    _storage.remove(_bannerUpdatedAt);
   }
 
   static Future<void> deleteAllLocalData() async {
