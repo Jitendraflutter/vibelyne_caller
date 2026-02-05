@@ -1,13 +1,15 @@
 // routes.dart
 
 import 'package:get/get.dart';
-import 'package:voicly/controller/login_controller.dart';
+import 'package:voicly/controller/auth/login_controller.dart';
 import 'package:voicly/features/auth/auth_screen.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
+import 'package:voicly/features/language/language_screen.dart';
 import 'package:voicly/features/profile/profile_screen.dart';
 import 'package:voicly/features/splash/splash_screen.dart';
 
 import '../utils/local_storage.dart';
+import 'binding.dart';
 
 // ignore_for_file: constant_identifier_names
 class AppRoutes {
@@ -17,6 +19,7 @@ class AppRoutes {
   static const LOGIN = '/login';
   static const COIN = '/coin';
   static const PROFILE = '/profile';
+  static const LANGUAGE = '/language';
 
   static String getInitialRoute() {
     final isFirstRun = LocalStorage.getFirstRun();
@@ -33,7 +36,11 @@ class AppRoutes {
 
 class AppPages {
   static final pages = [
-    GetPage(name: AppRoutes.SPLASH, page: () => const SplashScreen()),
+    GetPage(
+      name: AppRoutes.SPLASH,
+      page: () => const SplashScreen(),
+      binding: SplashBinding(),
+    ),
     GetPage(
       name: AppRoutes.LOGIN,
       page: () => AuthScreen(),
@@ -41,5 +48,6 @@ class AppPages {
     ),
     GetPage(name: AppRoutes.COIN, page: () => CoinScreen()),
     GetPage(name: AppRoutes.PROFILE, page: () => ProfileScreen()),
+    GetPage(name: AppRoutes.LANGUAGE, page: () => LanguageSelectionScreen()),
   ];
 }

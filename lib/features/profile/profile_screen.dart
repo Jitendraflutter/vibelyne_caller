@@ -1,11 +1,13 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
-import 'package:voicly/core/route/app_route.dart';
-import 'package:voicly/features/language/language_screen.dart';
+import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
+
 import '../../core/constants/app_colors.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -22,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
             pinned: true,
             backgroundColor: Colors.transparent,
             leading: IconButton(
-              onPressed: () => AppRoute.pop(),
+              onPressed: () => Get.back(),
               icon: Icon(Icons.arrow_back, color: Colors.white),
             ),
             flexibleSpace: ClipRRect(
@@ -95,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                         "Data usage & safety",
                       ),
                       _profileTile(
-                        onPressed: () => AppRoute.push(LanguageSelectionScreen()),
+                        onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
                         CupertinoIcons.gear_alt,
                         "Language",
                         "App language settings",

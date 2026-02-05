@@ -5,14 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
-<<<<<<< Updated upstream
-import 'package:voicly/core/route/app_route.dart';
-import 'package:voicly/features/coin/coin_screen.dart';
-import 'package:voicly/features/profile/profile_screen.dart';
-import 'package:voicly/widget/glass_container.dart';
-=======
 import 'package:voicly/core/route/routes.dart';
->>>>>>> Stashed changes
+import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -210,12 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           // const SizedBox(height: 5),
-          Text(
-            "Active",
-            style: TextStyle(color: AppColors.grey, fontSize: 12),
-          ),
+          Text("Active", style: TextStyle(color: AppColors.grey, fontSize: 12)),
           const SizedBox(height: 12),
-        
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -330,7 +321,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: AppColors.onBackground,
-
                         ),
                       ),
                       Text(
