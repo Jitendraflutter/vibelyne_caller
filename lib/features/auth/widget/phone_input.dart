@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth_button.dart';
+import '../../../widget/app_button.dart';
 import 'base_layout.dart';
 import 'custom_text_field.dart';
 
@@ -20,7 +20,7 @@ class PhoneInputScreen extends StatelessWidget {
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 30),
-          GradientButton(text: "Send OTP", onPressed: onNext),
+          AppButton(text: "Send OTP", onPressed: onNext),
         ],
       ),
     );

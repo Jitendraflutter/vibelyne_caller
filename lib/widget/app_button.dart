@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../core/constants/app_colors.dart';
+import '../core/constants/app_colors.dart';
 
-class GradientButton extends StatelessWidget {
+class AppButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  const GradientButton({
+  const AppButton({
     super.key,
     required this.text,
     required this.onPressed,
@@ -12,11 +13,12 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
+    return CupertinoButton(
+      onPressed: onPressed,
+      padding: EdgeInsets.zero,
       child: Container(
         width: double.infinity,
-        height: 60,
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         decoration: BoxDecoration(
           gradient: AppColors.logoGradient,
           borderRadius: BorderRadius.circular(20),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/features/auth/widget/auth_button.dart';
+import 'package:voicly/widget/app_button.dart';
 import 'package:voicly/features/auth/widget/base_layout.dart';
 import '../../core/constants/app_colors.dart';
 
@@ -19,7 +19,7 @@ class OTPScreen extends StatelessWidget {
             children: List.generate(4, (index) => _otpBox()),
           ),
           const SizedBox(height: 40),
-          GradientButton(text: "Verify", onPressed: onNext),
+          AppButton(text: "Verify", onPressed: onNext),
           TextButton(
             onPressed: () {},
             child: const Text(

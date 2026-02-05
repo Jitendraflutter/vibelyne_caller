@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widget/auth_button.dart';
+import '../../widget/app_button.dart';
 import 'widget/base_layout.dart';
 import 'widget/custom_text_field.dart';
 
@@ -25,7 +25,7 @@ class ProfileSetupScreen extends StatelessWidget {
             readOnly: true,
           ),
           const SizedBox(height: 40),
-          GradientButton(text: "Complete Setup", onPressed: onComplete),
+          AppButton(text: "Complete Setup", onPressed: onComplete),
         ],
       ),
     );

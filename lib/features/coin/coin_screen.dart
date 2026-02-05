@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 
 import '../../core/constants/app_colors.dart';
 // import 'your_path/app_colors.dart';
@@ -25,77 +26,64 @@ class _CoinScreenState extends State<CoinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: AppColors.logoGradient),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: const BackButton(color: Colors.white),
-          title: const Text(
-            "Refill Coins",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-        ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  _buildCurrentBalanceHeader(),
-                  const SizedBox(height: 25),
-                  const Text(
-                    "Select Package",
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
+    return ScreenWrapper(
+      visibleAppBar: true,
+      title: "Buy Coins",
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                _buildCurrentBalanceHeader(),
+                const SizedBox(height: 25),
+                const Text(
+                  "Select Package",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
                   ),
-                  const SizedBox(height: 15),
+                ),
+                const SizedBox(height: 15),
 
-                  // Grid of Coin Cards
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          childAspectRatio: 0.9,
-                        ),
-                    itemCount: coinPackages.length,
-                    itemBuilder: (context, index) => _buildCoinCard(index),
+                // Grid of Coin Cards
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 0.9,
                   ),
+                  itemCount: coinPackages.length,
+                  itemBuilder: (context, index) => _buildCoinCard(index),
+                ),
 
-                  const SizedBox(height: 30),
-                  const Text(
-                    "Payment Method",
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
+                const SizedBox(height: 30),
+                const Text(
+                  "Payment Method",
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
                   ),
-                  const SizedBox(height: 15),
-                  _buildPaymentSelection(),
+                ),
+                const SizedBox(height: 15),
+                _buildPaymentSelection(),
 
-                  const SizedBox(height: 140), // Space for the bottom buy bar
-                ],
-              ),
+                const SizedBox(height: 140), // Space for the bottom buy bar
+              ],
             ),
+          ),
 
-            // Floating Bottom Purchase Bar
-            _buildBottomPurchaseBar(),
-          ],
-        ),
+          // Floating Bottom Purchase Bar
+          _buildBottomPurchaseBar(),
+        ],
       ),
     );
   }
@@ -343,9 +331,7 @@ class _CoinScreenState extends State<CoinScreen> {
         decoration: BoxDecoration(
           gradient: selectedPackageIndex == null
               ? null
-              : const LinearGradient(
-                  colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
-                ),
+              :AppColors.logoGradient,
           color: selectedPackageIndex == null ? Colors.white10 : null,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [

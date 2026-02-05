@@ -1,48 +1,65 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Core Brand Colors (Extracted from your logo)
   static const Color primaryPeach = Color(0xFFFDB4B8);
   static const Color primaryLavender = Color(0xFFBCB1F1);
   static const Color primaryPurple = Color(0xFF9E8CF4);
+  static const Color purpleDark = Color(0xFF3810FF);
 
-  // Background & Surface
-  static const Color background = Color(0xFFF8F9FF); // Very light tint for app bg
+  static const Color background = Color(0xFFF8F9FF);
   static const Color surface = Colors.white;
 
-  // Theme Variables
-  static const Color primary = Color(0xFFE5A6D3); // Mid-point of your gradient
+  static const Color primary = Color(0xFFE5A6D3);
   static const Color secondary = primaryLavender;
 
-  // Status Colors (Matching the soft pastel vibe)
   static const Color error = Color(0xFFE57373);
   static const Color warning = Color(0xFFFFB74D);
   static const Color info = Color(0xFF64B5F6);
   static const Color success = Color(0xFF81C784);
 
-  // Text Colors
-  static const Color onBackground = Color(0xFF2D2D2D);
+  static const Color onBackground = Colors.white;
+  static const Color grey = Color(0xFFD0D0D0);
+  // static const Color onBackground = Color(0xFF2D2D2D);
   static const Color onSurface = Color(0xFF2D2D2D);
   static const Color onPrimary = Colors.white;
+  static const Color dark = Color(0xFF2D2D2D);
 
-  // The Signature Gradient from your logo
   static const LinearGradient logoGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      primaryPeach,
-      primaryLavender,
-      primaryPurple,
-    ],
+    colors: [primaryPeach, primaryLavender, primaryPurple],
   );
 
-  // Soft Background Gradient for UI Screens
-  static const LinearGradient bgGradient = LinearGradient(
+  static const LinearGradient peachMagentaPremium = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFF0F1), // Soft peach tint
-      Color(0xFFF3F1FF), // Soft lavender tint
+      AppColors.primaryPeach,
+      AppColors.primaryPeach,
+      Color(0xFFE91EAF),
+      Color(0xFFFF00FF),
+    ],
+    stops: [0.0, 0.28, 0.36, 1.0],
+  );
+  static const LinearGradient peachDarkPurpleSplit = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+
+      // smooth connection shade
+      Color(0xFF7B3FE4), // mid purple blend
+
+      // main dark purple bottom
+      Color(0xFF2A0A5E), // deep dark purple
+      AppColors.dark,
+      AppColors.dark,
+    ],
+    stops: [
+      0.0,
+      0.28,  // 🔥 top 28% peach
+      0.36,  // blend divider zone
+      1.0,
     ],
   );
+
 }

@@ -6,6 +6,7 @@ import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/app_route.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
 import 'package:voicly/features/profile/profile_screen.dart';
+import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 import '../../core/constants/app_colors.dart';
 
@@ -41,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     vertical: 10,
                   ),
                   title: _buildAppBarContent(),
-                  background: Container(
-                    color: AppColors.background.withOpacity(0.4),
-                  ),
+                  // background: Container(
+                  //   color: AppColors.background.withOpacity(0.4),
+                  // ),
                 ),
               ),
             ),
@@ -168,51 +169,63 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildGridCard() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.4),
-              width: 1.5,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return GlassContainer(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
             children: [
               const CircleAvatar(
-                radius: 35,
+                radius: 40,
                 backgroundImage: NetworkImage(AppAssets.userUrl),
               ),
-              const SizedBox(height: 10),
-              const Text(
-                "Aria Zegler",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _iconAction(
-                    CupertinoIcons.phone,
-                    AppColors.primaryPurple,
-                    () {},
+              Positioned(
+                right: 2,
+                bottom: 2,
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: AppColors.success,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
                   ),
-                  const SizedBox(width: 10),
-                  _iconAction(
-                    CupertinoIcons.videocam_fill,
-                    AppColors.success,
-                    () {},
-                  ),
-                ],
+                ),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 10),
+          const Text(
+            "Aria Zegler",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.onBackground,
+            ),
+          ),
+          // const SizedBox(height: 5),
+          Text(
+            "Active",
+            style: TextStyle(color: AppColors.grey, fontSize: 12),
+          ),
+          const SizedBox(height: 12),
+        
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _iconAction(
+                CupertinoIcons.phone_arrow_up_right,
+                AppColors.purpleDark,
+                () {},
+              ),
+              const SizedBox(width: 10),
+              _iconAction(
+                CupertinoIcons.videocam_fill,
+                AppColors.purpleDark,
+                () {},
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -268,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.6),
+              color: AppColors.onBackground.withOpacity(0.3),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: Colors.white.withOpacity(0.4),
@@ -309,11 +322,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
+                          color: AppColors.onBackground,
+
                         ),
                       ),
                       Text(
-                        "Active 2m ago",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        "Active",
+                        style: TextStyle(color: AppColors.grey, fontSize: 12),
                       ),
                     ],
                   ),
@@ -323,13 +338,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     _iconAction(
                       CupertinoIcons.phone_arrow_up_right,
-                      AppColors.primaryPurple,
+                      AppColors.purpleDark,
                       () => debugPrint("Chat Pressed"),
                     ),
                     const SizedBox(width: 4),
                     _iconAction(
                       CupertinoIcons.video_camera,
-                      AppColors.success,
+                      AppColors.purpleDark,
                       () => debugPrint("Video Pressed"),
                     ),
                   ],
@@ -349,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
+          color: Colors.white.withValues(alpha: 0.3),
           shape: BoxShape.circle,
 
           border: Border.all(color: color.withOpacity(0.2), width: 0.5),
@@ -358,5 +373,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

@@ -3,6 +3,7 @@ import 'package:voicly/core/route/app_route.dart';
 import 'package:voicly/features/auth/widget/phone_input.dart';
 import 'package:voicly/features/auth/profile_setup_screen.dart';
 import 'package:voicly/features/home/home_screen.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 import '../../core/constants/app_colors.dart';
 import 'otp_screen.dart';
 
@@ -25,9 +26,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: PageView(
+    return ScreenWrapper(
+      child: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
@@ -41,4 +41,3 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 }
-

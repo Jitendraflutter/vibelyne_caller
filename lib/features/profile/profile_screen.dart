@@ -2,6 +2,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voicly/core/constants/app_assets.dart';
+import 'package:voicly/core/route/app_route.dart';
+import 'package:voicly/features/language/language_screen.dart';
+import 'package:voicly/widget/glass_container.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 import '../../core/constants/app_colors.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -9,106 +13,129 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: AppColors.logoGradient),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            // --- PREMIUM GLASS APP BAR ---
-            SliverAppBar(
-              expandedHeight: 60,
-              pinned: true,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                  child: FlexibleSpaceBar(
-                    title: const Text(
-                      "Profile",
-                      style: TextStyle(
-                        color: AppColors.onBackground,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+    return ScreenWrapper(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 60,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () => AppRoute.pop(),
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+            ),
+            flexibleSpace: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: FlexibleSpaceBar(
+                  title: const Text(
+                    "Profile",
+                    style: TextStyle(
+                      color: AppColors.onBackground,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
-                    centerTitle: true,
-                    background: Container(color: Colors.white.withOpacity(0.2)),
                   ),
+                  centerTitle: true,
+                  // background: Container(color: Colors.white.withOpacity(0.2)),
                 ),
               ),
             ),
+          ),
 
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  _buildProfileHeader(),
-                  const SizedBox(height: 30),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                _buildProfileHeader(),
+                const SizedBox(height: 30),
 
-                  // Section 1: Account
-                  _buildSectionTitle("Account Management"),
-                  _buildGlassGroup([
-                    _profileTile(
-                      CupertinoIcons.person_crop_circle_badge_checkmark,
-                      "Complete Profile",
-                      "90% Finished",
-                    ),
-                    _profileTile(
-                      CupertinoIcons.shield_fill,
-                      "Account Settings",
-                      "Security & Passwords",
-                    ),
-                    _profileTile(
-                      CupertinoIcons.slash_circle,
-                      "Blocked Users",
-                      "Manage restrictions",
-                    ),
-                  ]),
+                // Section 1: Account
+                _buildSectionTitle("Account Management"),
+                const SizedBox(height: 5),
+                GlassContainer(
+                  child: Column(
+                    children: [
+                      _profileTile(
+                        CupertinoIcons.person_crop_circle_badge_checkmark,
+                        "Complete Profile",
+                        "90% Finished",
+                      ),
+                      _profileTile(
+                        CupertinoIcons.shield_fill,
+                        "Account Settings",
+                        "Security & Passwords",
+                      ),
+                      _profileTile(
+                        CupertinoIcons.slash_circle,
+                        "Blocked Users",
+                        "Manage restrictions",
+                      ),
+                    ],
+                  ),
+                ),
 
-                  // Section 2: App Preferences
-                  _buildSectionTitle("Preferences"),
-                  _buildGlassGroup([
-                    _profileTile(
-                      CupertinoIcons.bell_fill,
-                      "Notifications",
-                      "Sounds & Alerts",
-                    ),
-                    _profileTile(
-                      CupertinoIcons.eye_slash_fill,
-                      "Privacy Policy",
-                      "Data usage & safety",
-                    ),
-                    _profileTile(
-                      CupertinoIcons.doc_text_fill,
-                      "Terms & Conditions",
-                      "Legal agreements",
-                    ),
-                  ]),
+                const SizedBox(height: 5),
 
-                  // Section 3: Support & Danger Zone
-                  _buildSectionTitle("Support"),
-                  _buildGlassGroup([
-                    _profileTile(
-                      CupertinoIcons.question_circle_fill,
-                      "Help Center",
-                      "FAQs & Chat Support",
-                    ),
-                    _profileTile(
-                      CupertinoIcons.square_arrow_right,
-                      "Logout",
-                      null,
-                      isDestructive: true,
-                    ),
-                  ]),
+                _buildSectionTitle("Preferences"),
+                const SizedBox(height: 5),
 
-                  const SizedBox(height: 100),
-                ],
-              ),
+                GlassContainer(
+                  child: Column(
+                    children: [
+                      _profileTile(
+                        CupertinoIcons.bell_fill,
+                        "Notifications",
+                        "Sounds & Alerts",
+                      ),
+                      _profileTile(
+                        CupertinoIcons.eye_slash_fill,
+                        "Privacy Policy",
+                        "Data usage & safety",
+                      ),
+                      _profileTile(
+                        onPressed: () => AppRoute.push(LanguageSelectionScreen()),
+                        CupertinoIcons.gear_alt,
+                        "Language",
+                        "App language settings",
+                      ),
+                      _profileTile(
+                        CupertinoIcons.doc_text_fill,
+                        "Terms & Conditions",
+                        "Legal agreements",
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+                _buildSectionTitle("Support"),
+                const SizedBox(height: 5),
+
+                GlassContainer(
+                  child: Column(
+                    children: [
+                      _profileTile(
+                        CupertinoIcons.question_circle_fill,
+                        "Help Center",
+                        "FAQs & Chat Support",
+                      ),
+                      _profileTile(
+                        CupertinoIcons.square_arrow_right,
+                        "Logout",
+                        null,
+                        isDestructive: true,
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 100),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -193,10 +220,11 @@ class ProfileScreen extends StatelessWidget {
     String title,
     String? subtitle, {
     bool isDestructive = false,
+    void Function()? onPressed,
   }) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: () {},
+      onPressed: onPressed ?? () {},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
