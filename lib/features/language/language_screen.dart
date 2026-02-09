@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:voicly_caller/widget/app_button.dart';
-import 'package:voicly_caller/widget/glass_container.dart';
-import 'package:voicly_caller/widget/screen_wrapper.dart';
+import 'package:voicly/widget/app_button.dart';
+import 'package:voicly/widget/glass_container.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 import '../../core/constants/app_colors.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {

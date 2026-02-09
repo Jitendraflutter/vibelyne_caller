@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "362367116949",
+    "project_id": "voicly-15ec0",
+    "storage_bucket": "voicly-15ec0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362367116949:android:1f84894cb64b2848365d9c",
+        "android_client_info": {
+          "package_name": "com.voicly.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsIXIzQEr92hnZ69TBbM4-itolEsBm-KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,59 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:voicly_caller/core/constants/app_assets.dart';
-import 'package:voicly_caller/core/constants/app_colors.dart';
+import 'package:get/get.dart';
+import 'package:voicly/controller/splash_controller.dart';
+import 'package:voicly/core/constants/app_assets.dart';
+import 'package:voicly/core/constants/app_colors.dart';
 
-import '../onboarding/onboarding_screen.dart';
-
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..forward();
-
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-    _navigateToOnboarding();
-  }
-
-  void _navigateToOnboarding() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-        );
-      }
-    });
-  }
-
-  Widget _decorativeCircle(double size) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white.withOpacity(0.1),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,17 +29,18 @@ class _SplashScreenState extends State<SplashScreen>
           children: [
             Positioned(top: -50, right: -50, child: _decorativeCircle(200)),
             Positioned(bottom: -20, left: -30, child: _decorativeCircle(150)),
+
             ScaleTransition(
-              scale: _animation,
+              scale: controller.animation,
               child: FadeTransition(
-                opacity: _animation,
+                opacity: controller.animation,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(AppAssets.logo, height: 120, width: 120),
                     const SizedBox(height: 24),
                     const Text(
-                      "Voicly Caller",
+                      "Voicly",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 28,
@@ -99,19 +52,31 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
             ),
+
             const Positioned(
               bottom: 50,
               child: SizedBox(
                 width: 40,
                 height: 40,
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryPeach),
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
                   strokeWidth: 2,
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _decorativeCircle(double size) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        shape: BoxShape.circle,
       ),
     );
   }
