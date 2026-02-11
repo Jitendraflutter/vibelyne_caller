@@ -1,0 +1,100 @@
+{
+  "project_info": {
+    "project_number": "362367116949",
+    "project_id": "voicly-15ec0",
+    "storage_bucket": "voicly-15ec0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362367116949:android:1f84894cb64b2848365d9c",
+        "android_client_info": {
+          "package_name": "com.voicly.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362367116949-hand9qufg96j5c8b1rul4k43q19unegq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voicly.app",
+            "certificate_hash": "850ee10edc8b55e29968cf94a9eb2916d7a19dc8"
+          }
+        },
+        {
+          "client_id": "362367116949-mpcailtlb0qi9h57hfqe845rnr7rldse.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voicly.app",
+            "certificate_hash": "5924645127620ddb23533a1d4edfd903ee72045e"
+          }
+        },
+        {
+          "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsIXIzQEr92hnZ69TBbM4-itolEsBm-KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362367116949:android:ce3ea5a6b117028d365d9c",
+        "android_client_info": {
+          "package_name": "com.voicly.caller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362367116949-cluou7dar81e7i4fcmda7doop3j9gu3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voicly.caller",
+            "certificate_hash": "5924645127620ddb23533a1d4edfd903ee72045e"
+          }
+        },
+        {
+          "client_id": "362367116949-t68p2smuuoonrkvkuo5encu01hq4ir29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voicly.caller",
+            "certificate_hash": "850ee10edc8b55e29968cf94a9eb2916d7a19dc8"
+          }
+        },
+        {
+          "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsIXIzQEr92hnZ69TBbM4-itolEsBm-KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
