@@ -7,9 +7,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:voicly_caller/app.dart';
+import 'package:voicly/app.dart';
 
-import 'package:voicly_caller/main.dart';
+import 'package:voicly/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

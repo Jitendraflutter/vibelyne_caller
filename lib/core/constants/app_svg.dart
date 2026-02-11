@@ -3,7 +3,7 @@ class AppSvg {
   static const cart = "assets/svg/cart.svg";
   static const category = "assets/svg/category.svg";
   static const home = "assets/svg/home.svg";
-  static const profile = "assets/svg/setup.svg";
+  static const profile = "assets/svg/profile.svg";
 
   /// Other SVGs
   static const search = "assets/svg/search.svg";

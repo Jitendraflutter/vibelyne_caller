@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
+import 'dart:ui';
 
-import '../../core/constants/app_colors.dart';
-import '../../widget/screen_wrapper.dart';
-=======
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
@@ -15,19 +14,14 @@ import 'package:voicly/widget/screen_wrapper.dart';
 
 import '../../core/constants/app_colors.dart';
 import 'LogoutModal.dart';
->>>>>>> Stashed changes
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authService = Get.find<AuthService>();
     return ScreenWrapper(
-<<<<<<< Updated upstream
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-=======
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -226,100 +220,149 @@ class ProfileScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
->>>>>>> Stashed changes
           children: [
-            const SizedBox(height: 30),
-            _buildProfileHeader(),
-            const SizedBox(height: 40),
-            _buildProfileOption(Icons.person_outline, "Edit Profile"),
-            _buildProfileOption(Icons.account_balance_outlined, "Bank Details"),
-            _buildProfileOption(Icons.security_outlined, "Privacy & Safety"),
-            _buildProfileOption(Icons.help_outline, "Help Center"),
-            const SizedBox(height: 20),
-            _buildProfileOption(
-              Icons.logout_rounded,
-              "Logout",
-              isDestructive: true,
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color:
+                    (isDestructive ? AppColors.error : AppColors.primaryPurple)
+                        .withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: isDestructive
+                    ? AppColors.error
+                    : AppColors.primaryPurple,
+              ),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: isDestructive
+                          ? AppColors.error
+                          : AppColors.onBackground,
+                    ),
+                  ),
+                  if (subtitle != null)
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.onBackground.withOpacity(0.5),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Icon(
+              CupertinoIcons.chevron_forward,
+              size: 16,
+              color: Colors.grey.withOpacity(0.5),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+            color: Colors.white70,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileHeader({
+    required String name,
+    required String subtitle,
+    required String imageUrl,
+    required double percent,
+  }) {
     return Column(
       children: [
         Stack(
-          alignment: Alignment.bottomRight,
+          alignment: Alignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: AppColors.logoGradient,
-              ),
-              child: const CircleAvatar(
-                radius: 50,
-                backgroundColor: AppColors.dark,
-                child: Icon(Icons.person, size: 50, color: Colors.white),
+            // Outer Progress Ring
+            SizedBox(
+              width: 110,
+              height: 110,
+              child: CircularProgressIndicator(
+                value: percent,
+                strokeWidth: 4,
+                backgroundColor: Colors.white10,
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  AppColors.primaryPurple,
+                ),
               ),
             ),
-            const CircleAvatar(
-              radius: 16,
-              backgroundColor: AppColors.primaryPeach,
-              child: Icon(Icons.edit, size: 16, color: Colors.white),
+            // Profile Picture
+            Hero(
+              tag: "profile_pic",
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white12,
+                  backgroundImage: CachedNetworkImageProvider(
+                    imageUrl.isEmpty ? AppAssets.iconProfile : imageUrl,
+                  ),
+                ),
+              ),
+            ),
+            // Camera Icon Positioned
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  CupertinoIcons.camera_fill,
+                  size: 16,
+                  color: AppColors.primaryPurple,
+                ),
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        const Text(
-          "Aksbyte",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
+        const SizedBox(height: 12),
+        Text(
+          name,
+          style: const TextStyle(
+            fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: AppColors.onBackground,
           ),
         ),
-        const Text(
-          "ID: VOIC-99283",
-          style: TextStyle(color: AppColors.grey, fontSize: 14),
+        Text(
+          subtitle,
+          style: TextStyle(color: AppColors.onBackground.withOpacity(0.6)),
         ),
       ],
-    );
-  }
-
-  Widget _buildProfileOption(
-    IconData icon,
-    String title, {
-    bool isDestructive = false,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: isDestructive ? Colors.redAccent : AppColors.primaryLavender,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isDestructive ? Colors.redAccent : Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        trailing: const Icon(
-          Icons.chevron_right,
-          color: AppColors.grey,
-          size: 20,
-        ),
-      ),
     );
   }
 }

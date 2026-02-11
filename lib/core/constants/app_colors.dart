@@ -22,7 +22,7 @@ class AppColors {
   // static const Color onBackground = Color(0xFF2D2D2D);
   static const Color onSurface = Color(0xFF2D2D2D);
   static const Color onPrimary = Colors.white;
-  static const Color dark = Color(0xFF000000);
+  static const Color dark = Color(0xFF2D2D2D);
 
   static const LinearGradient logoGradient = LinearGradient(
     begin: Alignment.topLeft,
@@ -41,8 +41,6 @@ class AppColors {
     ],
     stops: [0.0, 0.28, 0.36, 1.0],
   );
-
-
   static const LinearGradient peachDarkPurpleSplit = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
