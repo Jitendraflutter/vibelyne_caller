@@ -26,6 +26,11 @@ dependencies:
   flutter_svg: ^2.2.2
   cloud_firestore: ^6.1.2
   cached_network_image: ^3.4.1
+  flutter_local_notifications: ^20.0.0
+  cloud_functions: ^6.0.6
+  agora_rtc_engine: ^6.5.3
+  flutter_ringtone_player: ^4.0.0+4
+  permission_handler: ^12.0.1
 
 dev_dependencies:
   flutter_test:

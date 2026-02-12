@@ -4,9 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voicly/controller/home_controller.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
@@ -21,8 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isGridView = false;
-
+  final HomeController _controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     final authService = Get.find<AuthService>();
@@ -56,7 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
           _buildSectionHeader("Recent History"),
 
-          isGridView ? _buildGridView() : _buildListView(),
+          Obx(
+            () => _controller.isGridView.value
+                ? _buildGridView()
+                : _buildListView(),
+          ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
@@ -82,10 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.zero,
               onPressed: () => Get.toNamed(AppRoutes.COIN),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(7),
                   border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
                 child: Row(
@@ -105,16 +110,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Icon(
                         Icons.monetization_on_rounded,
                         color: Colors.amber,
-                        size: 18,
+                        size: 15,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 2),
                     Obx(() {
                       final user = auth.currentUser.value;
                       return Text(
                         (auth.currentUser.value?.points ?? 0).toString(),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: AppColors.onBackground,
                         ),
@@ -135,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   tag: "profile_pic",
                   child: Container(
                     clipBehavior: Clip.hardEdge,
+                    padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
@@ -144,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: user?.profilePic ?? "",
-                      height: 36,
-                      width: 36,
+                      height: 25,
+                      width: 25,
                       fit: BoxFit.fill,
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) =>
@@ -175,32 +181,28 @@ class _HomeScreenState extends State<HomeScreen> {
           childAspectRatio: 0.85,
         ),
         delegate: SliverChildBuilderDelegate(
-          (context, index) => _buildGridCard(),
-          childCount: 12,
+          (context, index) =>
+              _buildGridCard(_controller.callers[index]), // Pass data
+          childCount: _controller.callers.length, // Dynamic count
         ),
       ),
     );
   }
 
-  Widget _buildListView() {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => _buildUserGlassCard(),
-        childCount: 12,
-      ),
-    );
-  }
-
-  Widget _buildGridCard() {
+  Widget _buildGridCard(CallerModel caller) {
     return GlassContainer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(AppAssets.userUrl),
+                backgroundImage: NetworkImage(
+                  caller.profilePic.isNotEmpty
+                      ? caller.profilePic
+                      : AppAssets.userUrl,
+                ),
               ),
               Positioned(
                 right: 2,
@@ -209,7 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                    color: AppColors.success,
+                    color: caller.isOnline == true
+                        ? AppColors.success
+                        : Colors.grey,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                   ),
@@ -218,25 +222,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const SizedBox(height: 10),
-          const Text(
-            "Aria Zegler",
-            style: TextStyle(
+          Text(
+            caller.fullName,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.onBackground,
             ),
           ),
-          // const SizedBox(height: 5),
-          Text("Active", style: TextStyle(color: AppColors.grey, fontSize: 12)),
+          Text(
+            caller.isOnline == true ? "Online" : "Offline",
+            style: TextStyle(color: AppColors.grey, fontSize: 12),
+          ),
           const SizedBox(height: 12),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _iconAction(
-                CupertinoIcons.phone_arrow_up_right,
-                AppColors.purpleDark,
-                () {},
-              ),
+              _iconAction(CupertinoIcons.phone_fill, AppColors.purpleDark, () {
+                _controller.startCall(caller);
+              }),
               const SizedBox(width: 10),
               _iconAction(
                 CupertinoIcons.videocam_fill,
@@ -246,6 +249,113 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildListView() {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        // Get the specific caller for this row
+        final caller = _controller.callers[index];
+        return _buildUserGlassCard(caller);
+      }, childCount: _controller.callers.length),
+    );
+  }
+
+  Widget _buildUserGlassCard(CallerModel caller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.onBackground.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.4),
+                width: 1.5,
+              ),
+            ),
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      // Use actual profile pic or a fallback placeholder
+                      backgroundImage: NetworkImage(
+                        caller.profilePic.isNotEmpty
+                            ? caller.profilePic
+                            : AppAssets.userUrl,
+                      ),
+                    ),
+                    Positioned(
+                      right: 2,
+                      bottom: 2,
+                      child: Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          // Dynamic status color
+                          color: caller.isOnline == true
+                              ? AppColors.success
+                              : Colors.grey,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 15),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        caller.fullName, // Dynamic Name
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: AppColors.onBackground,
+                        ),
+                      ),
+                      Text(
+                        caller.isOnline == true
+                            ? "Active"
+                            : "Offline", // Dynamic Status
+                        style: TextStyle(color: AppColors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Row(
+                  children: [
+                    _iconAction(
+                      CupertinoIcons.phone_fill,
+                      AppColors.purpleDark,
+                      () {
+                        _controller.startCall(caller);
+                      }, // Trigger Cloud Function
+                    ),
+                    const SizedBox(width: 8),
+                    _iconAction(
+                      CupertinoIcons.videocam_fill,
+                      AppColors.purpleDark,
+                      () {}, // Trigger Agora Video
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -267,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Spacer(),
             CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => setState(() => isGridView = !isGridView),
+              onPressed: () => _controller.toggleView(),
 
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -277,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
                 child: Icon(
-                  isGridView
+                  _controller.isGridView.isTrue
                       ? CupertinoIcons.list_bullet
                       : CupertinoIcons.square_grid_2x2,
                   color: AppColors.onBackground,
@@ -286,91 +396,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUserGlassCard() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.onBackground.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.4),
-                width: 1.5,
-              ),
-            ),
-            child: Row(
-              children: [
-                Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(AppAssets.userUrl),
-                    ),
-                    Positioned(
-                      right: 2,
-                      bottom: 2,
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: AppColors.success,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 15),
-
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Aria Zegler",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.onBackground,
-                        ),
-                      ),
-                      Text(
-                        "Active",
-                        style: TextStyle(color: AppColors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Row(
-                  children: [
-                    _iconAction(
-                      CupertinoIcons.phone_arrow_up_right,
-                      AppColors.purpleDark,
-                      () {},
-                    ),
-                    const SizedBox(width: 4),
-                    _iconAction(
-                      CupertinoIcons.video_camera,
-                      AppColors.purpleDark,
-                      () => debugPrint("Video Pressed"),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

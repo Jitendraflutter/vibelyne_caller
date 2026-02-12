@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LocalStorage {
@@ -56,7 +57,7 @@ class LocalStorage {
   }
 
   static void clearLogInSession() {
-    _storage.remove(_accessToken);
+    _storage.remove(_uid);
     _storage.remove(_email);
     _storage.remove(_firstName);
     _storage.remove(_last_name);
@@ -64,6 +65,7 @@ class LocalStorage {
     _storage.remove(_roles);
     _storage.remove(_selectedAddress);
     _storage.remove(_selectedAddressDetails);
+    FirebaseAuth.instance.signOut();
   }
 
   ///set Data in local Storage

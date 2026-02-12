@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -74,9 +75,10 @@ class LoginController extends GetxController {
           bio: "",
         );
 
-        // 5. CALL REPOSITORY: Create only if not exists
         await _userRepo.createUserIfNotExist(newUser);
         final user = await _userRepo.watchUser(firebaseUser.uid).first;
+        final token = await FirebaseMessaging.instance.getToken();
+        _userRepo.updateUserData(user.uid, {"fcmToken": token});
         _saveUserToLocal(user);
         Get.offAllNamed(AppRoutes.HOME);
       }

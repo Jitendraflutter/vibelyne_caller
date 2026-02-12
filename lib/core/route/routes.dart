@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:voicly/controller/auth/login_controller.dart';
+import 'package:voicly/controller/caller_controller.dart';
 import 'package:voicly/features/auth/auth_screen.dart';
+import 'package:voicly/features/call/call_screen.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
 import 'package:voicly/features/home/home_screen.dart';
 import 'package:voicly/features/language/language_screen.dart';
@@ -19,6 +21,7 @@ class AppRoutes {
   static const PROFILE = '/profile';
   static const LANGUAGE = '/language';
   static const HOME = '/home';
+  static const CALL_SCREEN = '/call_screen';
   static const UPDATE_PROFILE = '/update_profile';
 
   static String getInitialRoute() {
@@ -51,5 +54,10 @@ class AppPages {
     GetPage(name: AppRoutes.PROFILE, page: () => ProfileScreen()),
     GetPage(name: AppRoutes.LANGUAGE, page: () => LanguageSelectionScreen()),
     GetPage(name: AppRoutes.UPDATE_PROFILE, page: () => UpdateProfileScreen()),
+    GetPage(
+      name: AppRoutes.CALL_SCREEN,
+      page: () => CallView(),
+      binding: BindingsBuilder.put(() => CallController()),
+    ),
   ];
 }

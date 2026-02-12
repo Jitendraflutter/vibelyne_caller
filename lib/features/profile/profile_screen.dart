@@ -12,6 +12,7 @@ import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 import '../../core/constants/app_colors.dart';
+import 'LogoutModal.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -66,7 +67,6 @@ class ProfileScreen extends StatelessWidget {
                     name: name,
                     subtitle: email,
                     imageUrl: pic,
-                    // Use the getter we created in the UserModel
                     percent: user?.completionPercentage ?? 0.0,
                   ),
                   const SizedBox(height: 30),
@@ -84,6 +84,7 @@ class ProfileScreen extends StatelessWidget {
                           onPressed: () =>
                               Get.toNamed(AppRoutes.UPDATE_PROFILE),
                         ),
+
                         _profileTile(
                           CupertinoIcons.shield_fill,
                           "Account Settings",
@@ -147,7 +148,12 @@ class ProfileScreen extends StatelessWidget {
                         _profileTile(
                           CupertinoIcons.square_arrow_right,
                           onPressed: () {
-                            Get.offAndToNamed(AppRoutes.LOGIN);
+                            Get.bottomSheet(
+                              LogoutModal(),
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled:
+                                  true, // Allows the modal to take required height
+                            );
                           },
                           "Logout",
                           "",
