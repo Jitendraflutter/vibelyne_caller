@@ -102,6 +102,7 @@ class CallView extends GetView<CallController> {
   Widget _iconButton({
     required IconData icon,
     required Color color,
+    Color? iconColor = Colors.white,
     required VoidCallback onTap,
     double size = 56,
   }) {
@@ -111,7 +112,7 @@ class CallView extends GetView<CallController> {
         height: size,
         width: size,
         decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        child: Icon(icon, color: Colors.white, size: size * 0.5),
+        child: Icon(icon, color: iconColor, size: size * 0.5),
       ),
     );
   }

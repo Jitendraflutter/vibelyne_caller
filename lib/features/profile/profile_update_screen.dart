@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:voicly/controller/auth/update_user_profile_controller.dart';
 import 'package:voicly/core/constants/app_colors.dart';
 import 'package:voicly/networks/auth_services.dart';
+import 'package:voicly/widget/app_button.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
-class UpdateProfileScreen extends StatelessWidget {
-  const UpdateProfileScreen({super.key});
+class ProfileUpdateScreen extends StatelessWidget {
+  const ProfileUpdateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,31 +46,12 @@ class UpdateProfileScreen extends StatelessWidget {
 
             SizedBox(height: 50),
 
-            // Save Button
             Obx(
-              () => SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryPurple,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  onPressed: controller.isLoading.value
-                      ? null
-                      : () => controller.updateProfile(),
-                  child: controller.isLoading.value
-                      ? CircularProgressIndicator(color: Colors.white)
-                      : Text(
-                          "Save Changes",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                ),
+              () => AppButton(
+                text: 'Save Changes',
+                onPressed: controller.isLoading.value
+                    ? null
+                    : () => controller.updateProfile(),
               ),
             ),
             SizedBox(height: 20),
@@ -101,7 +83,7 @@ Widget _buildDatePickerField(
               return Theme(
                 data: ThemeData.dark().copyWith(
                   colorScheme: const ColorScheme.dark(
-                    primary: AppColors.primaryPurple, // Matches your theme
+                    primary: AppColors.primaryPeach, // Matches your theme
                     onPrimary: Colors.white,
                     surface: Color(0xFF1A1A1A), // Deep dark background
                   ),
@@ -111,8 +93,9 @@ Widget _buildDatePickerField(
               );
             },
           );
-          if (picked != null)
+          if (picked != null) {
             selectedDate.value = picked; // Update reactive variable
+          }
         },
         child: Container(
           width: double.infinity,
@@ -141,7 +124,7 @@ Widget _buildDatePickerField(
               Icon(
                 CupertinoIcons.calendar,
                 size: 20,
-                color: AppColors.primaryPurple,
+                color: AppColors.primaryPeach,
               ),
             ],
           ),
@@ -224,7 +207,7 @@ Widget _genderButton({
         borderRadius: BorderRadius.circular(15),
         // Border changes color and width based on selection
         border: Border.all(
-          color: isSelected ? AppColors.primaryPurple : Colors.transparent,
+          color: isSelected ? AppColors.primaryPeach : Colors.transparent,
           width: 1.5,
         ),
       ),
@@ -234,7 +217,7 @@ Widget _genderButton({
           Icon(
             icon,
             size: 20,
-            color: isSelected ? AppColors.primaryPurple : Colors.white60,
+            color: isSelected ? AppColors.primaryPeach : Colors.white60,
           ),
           SizedBox(width: 10),
           Text(
@@ -242,7 +225,7 @@ Widget _genderButton({
             style: TextStyle(
               fontSize: 16,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: isSelected ? AppColors.primaryPurple : Colors.white,
+              color: isSelected ? AppColors.primaryPeach : Colors.white,
             ),
           ),
         ],

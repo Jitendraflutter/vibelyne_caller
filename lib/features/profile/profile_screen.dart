@@ -93,6 +93,7 @@ class ProfileScreen extends StatelessWidget {
                             "Security & Passwords",
                           ),
                           _profileTile(
+                            onPressed: () => Get.toNamed(AppRoutes.BLOCKED_USER_SCREEN),
                             CupertinoIcons.slash_circle,
                             "Blocked Users",
                             "Manage restrictions",
@@ -219,7 +220,7 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color:
-                    (isDestructive ? AppColors.error : AppColors.primaryPurple)
+                    (isDestructive ? AppColors.error : AppColors.primaryPeach)
                         .withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
@@ -228,7 +229,7 @@ class ProfileScreen extends StatelessWidget {
                 size: 20,
                 color: isDestructive
                     ? AppColors.error
-                    : AppColors.primaryPurple,
+                    : AppColors.primaryPeach,
               ),
             ),
             const SizedBox(width: 15),
@@ -307,7 +308,7 @@ class ProfileScreen extends StatelessWidget {
                 strokeWidth: 4,
                 backgroundColor: Colors.white10,
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                  AppColors.primaryPurple,
+                  AppColors.primaryPeach,
                 ),
               ),
             ),
@@ -326,22 +327,22 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             // Camera Icon Positioned
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  CupertinoIcons.camera_fill,
-                  size: 16,
-                  color: AppColors.primaryPurple,
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 0,
+            //   right: 0,
+            //   child: Container(
+            //     padding: const EdgeInsets.all(6),
+            //     decoration: const BoxDecoration(
+            //       color: Colors.white,
+            //       shape: BoxShape.circle,
+            //     ),
+            //     child: const Icon(
+            //       CupertinoIcons.camera_fill,
+            //       size: 16,
+            //       color: AppColors.primaryPeach,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         const SizedBox(height: 12),

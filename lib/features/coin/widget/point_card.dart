@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-
 import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
 import '../model/point_pack_model.dart';
@@ -30,14 +29,14 @@ class EnhancedCoinCard extends StatelessWidget {
               : Colors.white.withOpacity(0.08),
           border: Border.all(
             color: isSelected
-                ? Colors.white
+                ? AppColors.primaryPeach
                 : (pack.isPopular ? AppColors.primaryPeach : Colors.white12),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primaryPurple.withOpacity(0.2),
+                    color: AppColors.primaryPeach.withOpacity(0.2),
                     blurRadius: 15,
                   ),
                 ]

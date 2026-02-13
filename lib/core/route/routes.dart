@@ -2,12 +2,14 @@ import 'package:get/get.dart';
 import 'package:voicly/controller/auth/login_controller.dart';
 import 'package:voicly/controller/caller_controller.dart';
 import 'package:voicly/features/auth/auth_screen.dart';
+import 'package:voicly/features/blocked/blocked_user_screen.dart';
 import 'package:voicly/features/call/call_screen.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
+import 'package:voicly/features/history/call_history_screen.dart';
 import 'package:voicly/features/home/home_screen.dart';
 import 'package:voicly/features/language/language_screen.dart';
 import 'package:voicly/features/profile/profile_screen.dart';
-import 'package:voicly/features/profile/update_profile_modal.dart';
+import 'package:voicly/features/profile/profile_update_screen.dart';
 import 'package:voicly/features/splash/splash_screen.dart';
 import '../utils/local_storage.dart';
 import 'binding.dart';
@@ -23,6 +25,8 @@ class AppRoutes {
   static const HOME = '/home';
   static const CALL_SCREEN = '/call_screen';
   static const UPDATE_PROFILE = '/update_profile';
+  static const HISTORY = '/history_screen';
+  static const BLOCKED_USER_SCREEN = '/blocked_users_screen';
 
   static String getInitialRoute() {
     final isFirstRun = LocalStorage.getFirstRun();
@@ -53,11 +57,14 @@ class AppPages {
     GetPage(name: AppRoutes.HOME, page: () => HomeScreen()),
     GetPage(name: AppRoutes.PROFILE, page: () => ProfileScreen()),
     GetPage(name: AppRoutes.LANGUAGE, page: () => LanguageSelectionScreen()),
-    GetPage(name: AppRoutes.UPDATE_PROFILE, page: () => UpdateProfileScreen()),
+    GetPage(name: AppRoutes.UPDATE_PROFILE, page: () => ProfileUpdateScreen()),
     GetPage(
       name: AppRoutes.CALL_SCREEN,
       page: () => CallView(),
       binding: BindingsBuilder.put(() => CallController()),
     ),
+
+    GetPage(name: AppRoutes.HISTORY, page: () => CallHistoryScreen()),
+    GetPage(name: AppRoutes.BLOCKED_USER_SCREEN, page: () => BlockedUsersScreen()),
   ];
 }

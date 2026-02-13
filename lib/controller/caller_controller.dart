@@ -11,7 +11,6 @@ class CallController extends GetxController {
   var callDuration = 0.obs; // In seconds
   var isMuted = false.obs;
   var isSpeaker = false.obs;
-
   late RtcEngine _engine;
   Timer? _timer;
 
@@ -50,7 +49,8 @@ class CallController extends GetxController {
     _engine = createAgoraRtcEngine();
     await _engine.initialize(
       const RtcEngineContext(
-        appId: "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
+        appId:
+            "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
         channelProfile: ChannelProfileType.channelProfileCommunication,
         audioScenario: AudioScenarioType.audioScenarioMeeting,
       ),
