@@ -8,6 +8,7 @@ import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/constants/app_svg.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../coin/coin_screen.dart';
 import 'base_layout.dart';
 
 class PhoneInputScreen extends StatelessWidget {

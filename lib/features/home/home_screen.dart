@@ -4,10 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:voicly/controller/home_controller.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/features/home/widget/animate_pulse_widget.dart';
+import 'package:voicly/features/home/widget/match_dialog.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
@@ -55,6 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
+          SliverToBoxAdapter(
+            child: AnimatedPulseWidget(
+              visible: true,
+              title: "Match Your Valentine ❤️",
+              subtitle: "Tap here to find your partner",
+              onTap: () => MatchDialog.show(_controller.callers),
+            ),
+          ),
+
           _buildSectionHeader("Recent History"),
 
           Obx(
@@ -73,14 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           AppStrings.appName,
-          style: TextStyle(
+          style: GoogleFonts.berkshireSwash(
             color: AppColors.onBackground,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+            letterSpacing: 1.5,
           ),
         ),
+
         Row(
           children: [
             CupertinoButton(
@@ -107,10 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.monetization_on_rounded,
-                        color: Colors.amber,
-                        size: 15,
+                      child: Image.asset(
+                        AppAssets.vp,
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.contain,
                       ),
                     ),
                     const SizedBox(width: 2),
@@ -129,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 4),
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: () => Get.toNamed(AppRoutes.PROFILE),
@@ -140,7 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   tag: "profile_pic",
                   child: Container(
                     clipBehavior: Clip.hardEdge,
-                    padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
@@ -191,64 +205,106 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildGridCard(CallerModel caller) {
     return GlassContainer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
             children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: NetworkImage(
-                  caller.profilePic.isNotEmpty
-                      ? caller.profilePic
-                      : AppAssets.userUrl,
-                ),
-              ),
-              Positioned(
-                right: 2,
-                bottom: 2,
-                child: Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: caller.isOnline == true
-                        ? AppColors.success
-                        : Colors.grey,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
+              const SizedBox(height: 10),
+
+              /// avatar area flexible
+              Expanded(
+                flex: 4,
+                child: Center(
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(
+                          caller.profilePic.isNotEmpty
+                              ? caller.profilePic
+                              : AppAssets.userUrl,
+                        ),
+                      ),
+                      // CircleAvatar(
+                      //   radius: constraints.maxWidth * 0.18,
+                      //   backgroundImage: NetworkImage(
+                      //     caller.profilePic.isNotEmpty
+                      //         ? caller.profilePic
+                      //         : AppAssets.userUrl,
+                      //   ),
+                      // ),
+                      Positioned(
+                        right: 2,
+                        bottom: 2,
+                        child: Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: caller.isOnline == true
+                                ? AppColors.success
+                                : Colors.grey,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            caller.fullName,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppColors.onBackground,
-            ),
-          ),
-          Text(
-            caller.isOnline == true ? "Online" : "Offline",
-            style: TextStyle(color: AppColors.grey, fontSize: 12),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _iconAction(CupertinoIcons.phone_fill, AppColors.purpleDark, () {
-                _controller.startCall(caller);
-              }),
-              const SizedBox(width: 10),
-              _iconAction(
-                CupertinoIcons.videocam_fill,
-                AppColors.purpleDark,
-                () {},
+
+              /// text area flexible
+              Expanded(
+                flex: 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      caller.fullName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.onBackground,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      caller.isOnline == true ? "Online" : "Offline",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              /// buttons flexible
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _iconAction(
+                      CupertinoIcons.phone_fill,
+                      AppColors.purpleDark,
+                      () {
+                        _controller.startCall(caller);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    _iconAction(
+                      CupertinoIcons.videocam_fill,
+                      AppColors.purpleDark,
+                      () {},
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -256,7 +312,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildListView() {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, index) {
-        // Get the specific caller for this row
         final caller = _controller.callers[index];
         return _buildUserGlassCard(caller);
       }, childCount: _controller.callers.length),
@@ -266,95 +321,82 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildUserGlassCard(CallerModel caller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.onBackground.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.4),
-                width: 1.5,
-              ),
-            ),
-            child: Row(
+      child: GlassContainer(
+        child: Row(
+          children: [
+            Stack(
               children: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      // Use actual profile pic or a fallback placeholder
-                      backgroundImage: NetworkImage(
-                        caller.profilePic.isNotEmpty
-                            ? caller.profilePic
-                            : AppAssets.userUrl,
-                      ),
-                    ),
-                    Positioned(
-                      right: 2,
-                      bottom: 2,
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          // Dynamic status color
-                          color: caller.isOnline == true
-                              ? AppColors.success
-                              : Colors.grey,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 15),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        caller.fullName, // Dynamic Name
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.onBackground,
-                        ),
-                      ),
-                      Text(
-                        caller.isOnline == true
-                            ? "Active"
-                            : "Offline", // Dynamic Status
-                        style: TextStyle(color: AppColors.grey, fontSize: 12),
-                      ),
-                    ],
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                    caller.profilePic.isNotEmpty
+                        ? caller.profilePic
+                        : AppAssets.userUrl,
                   ),
                 ),
-
-                Row(
-                  children: [
-                    _iconAction(
-                      CupertinoIcons.phone_fill,
-                      AppColors.purpleDark,
-                      () {
-                        _controller.startCall(caller);
-                      }, // Trigger Cloud Function
+                Positioned(
+                  right: 2,
+                  bottom: 2,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      // Dynamic status color
+                      color: caller.isOnline == true
+                          ? AppColors.success
+                          : Colors.grey,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
                     ),
-                    const SizedBox(width: 8),
-                    _iconAction(
-                      CupertinoIcons.videocam_fill,
-                      AppColors.purpleDark,
-                      () {}, // Trigger Agora Video
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(width: 15),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    caller.fullName, // Dynamic Name
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppColors.onBackground,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    caller.isOnline == true
+                        ? "Active"
+                        : "Offline", // Dynamic Status
+                    style: TextStyle(color: AppColors.grey, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(width: 4),
+            Row(
+              children: [
+                _iconAction(
+                  CupertinoIcons.phone_fill,
+                  AppColors.purpleDark,
+                  () {
+                    _controller.startCall(caller);
+                  }, // Trigger Cloud Function
+                ),
+                const SizedBox(width: 8),
+                _iconAction(
+                  CupertinoIcons.videocam_fill,
+                  AppColors.purpleDark,
+                  () {}, // Trigger Agora Video
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
