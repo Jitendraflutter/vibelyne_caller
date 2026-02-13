@@ -22,6 +22,7 @@ class ProfileScreen extends StatelessWidget {
     final authService = Get.find<AuthService>();
     return ScreenWrapper(
       child: CustomScrollView(
+
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
@@ -60,111 +61,114 @@ class ProfileScreen extends StatelessWidget {
               final email = user?.email ?? LocalStorage.getEmail();
               final pic = user?.profilePic ?? LocalStorage.getProfileUrl();
               final completion = user?.completionText ?? "0%";
-              return Column(
-                children: [
-                  const SizedBox(height: 20),
-                  _buildProfileHeader(
-                    name: name,
-                    subtitle: email,
-                    imageUrl: pic,
-                    percent: user?.completionPercentage ?? 0.0,
-                  ),
-                  const SizedBox(height: 30),
-
-                  // Section 1: Account
-                  _buildSectionTitle("Account Management"),
-                  const SizedBox(height: 5),
-                  GlassContainer(
-                    child: Column(
-                      children: [
-                        _profileTile(
-                          CupertinoIcons.person_crop_circle_badge_checkmark,
-                          "Complete Profile",
-                          "$completion% Finished",
-                          onPressed: () =>
-                              Get.toNamed(AppRoutes.UPDATE_PROFILE),
-                        ),
-
-                        _profileTile(
-                          CupertinoIcons.shield_fill,
-                          "Account Settings",
-                          "Security & Passwords",
-                        ),
-                        _profileTile(
-                          CupertinoIcons.slash_circle,
-                          "Blocked Users",
-                          "Manage restrictions",
-                        ),
-                      ],
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    _buildProfileHeader(
+                      name: name,
+                      subtitle: email,
+                      imageUrl: pic,
+                      percent: user?.completionPercentage ?? 0.0,
                     ),
-                  ),
+                    const SizedBox(height: 30),
 
-                  const SizedBox(height: 5),
+                    // Section 1: Account
+                    _buildSectionTitle("Account Management"),
+                    const SizedBox(height: 5),
+                    GlassContainer(
+                      child: Column(
+                        children: [
+                          _profileTile(
+                            CupertinoIcons.person_crop_circle_badge_checkmark,
+                            "Complete Profile",
+                            "$completion% Finished",
+                            onPressed: () =>
+                                Get.toNamed(AppRoutes.UPDATE_PROFILE),
+                          ),
 
-                  _buildSectionTitle("Preferences"),
-                  const SizedBox(height: 5),
-
-                  GlassContainer(
-                    child: Column(
-                      children: [
-                        _profileTile(
-                          CupertinoIcons.bell_fill,
-                          "Notifications",
-                          "Sounds & Alerts",
-                        ),
-                        _profileTile(
-                          CupertinoIcons.eye_slash_fill,
-                          "Privacy Policy",
-                          "Data usage & safety",
-                        ),
-                        _profileTile(
-                          onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
-                          CupertinoIcons.gear_alt,
-                          "Language",
-                          "App language settings",
-                        ),
-                        _profileTile(
-                          CupertinoIcons.doc_text_fill,
-                          "Terms & Conditions",
-                          "Legal agreements",
-                        ),
-                      ],
+                          _profileTile(
+                            CupertinoIcons.shield_fill,
+                            "Account Settings",
+                            "Security & Passwords",
+                          ),
+                          _profileTile(
+                            CupertinoIcons.slash_circle,
+                            "Blocked Users",
+                            "Manage restrictions",
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 5),
-                  _buildSectionTitle("Support"),
-                  const SizedBox(height: 5),
+                    const SizedBox(height: 5),
 
-                  GlassContainer(
-                    child: Column(
-                      children: [
-                        _profileTile(
-                          CupertinoIcons.question_circle_fill,
-                          "Help Center",
-                          onPressed: () {},
-                          "FAQs & Chat Support",
-                        ),
-                        _profileTile(
-                          CupertinoIcons.square_arrow_right,
-                          onPressed: () {
-                            Get.bottomSheet(
-                              LogoutModal(),
-                              backgroundColor: Colors.transparent,
-                              isScrollControlled:
-                                  true, // Allows the modal to take required height
-                            );
-                          },
-                          "Logout",
-                          "",
-                          isDestructive: true,
-                        ),
-                      ],
+                    _buildSectionTitle("Preferences"),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
+                          _profileTile(
+                            CupertinoIcons.bell_fill,
+                            "Notifications",
+                            "Sounds & Alerts",
+                          ),
+                          _profileTile(
+                            CupertinoIcons.eye_slash_fill,
+                            "Privacy Policy",
+                            "Data usage & safety",
+                          ),
+                          _profileTile(
+                            onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
+                            CupertinoIcons.gear_alt,
+                            "Language",
+                            "App language settings",
+                          ),
+                          _profileTile(
+                            CupertinoIcons.doc_text_fill,
+                            "Terms & Conditions",
+                            "Legal agreements",
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 100),
-                ],
+                    const SizedBox(height: 5),
+                    _buildSectionTitle("Support"),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
+                          _profileTile(
+                            CupertinoIcons.question_circle_fill,
+                            "Help Center",
+                            onPressed: () {},
+                            "FAQs & Chat Support",
+                          ),
+                          _profileTile(
+                            CupertinoIcons.square_arrow_right,
+                            onPressed: () {
+                              Get.bottomSheet(
+                                LogoutModal(),
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled:
+                                    true, // Allows the modal to take required height
+                              );
+                            },
+                            "Logout",
+                            "",
+                            isDestructive: true,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 100),
+                  ],
+                ),
               );
             }),
           ),
@@ -243,6 +247,7 @@ class ProfileScreen extends StatelessWidget {
                           : AppColors.onBackground,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   if (subtitle != null)
                     Text(
                       subtitle,
