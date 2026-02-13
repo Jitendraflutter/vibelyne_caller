@@ -7,16 +7,14 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CallController extends GetxController {
-  // --- Observables ---
   var callStatus = "Dialing...".obs;
   var callDuration = 0.obs; // In seconds
   var isMuted = false.obs;
+  var isSpeaker = false.obs;
 
-  // --- Agora & Timer ---
   late RtcEngine _engine;
   Timer? _timer;
 
-  // --- Data from Arguments ---
   final String channelId = Get.arguments['channel_id'];
   final String rtcToken = Get.arguments['rtc_token'];
   final String callerName = Get.arguments['caller_name'];
@@ -52,8 +50,7 @@ class CallController extends GetxController {
     _engine = createAgoraRtcEngine();
     await _engine.initialize(
       const RtcEngineContext(
-        appId:
-            "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
+        appId: "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
         channelProfile: ChannelProfileType.channelProfileCommunication,
         audioScenario: AudioScenarioType.audioScenarioMeeting,
       ),
@@ -106,6 +103,11 @@ class CallController extends GetxController {
   void toggleMute() {
     isMuted.value = !isMuted.value;
     _engine.muteLocalAudioStream(isMuted.value);
+  }
+
+  void toggleSpeaker() {
+    isSpeaker.value = !isSpeaker.value;
+    _engine.setEnableSpeakerphone(isSpeaker.value);
   }
 
   void _listenToCallStatus() {

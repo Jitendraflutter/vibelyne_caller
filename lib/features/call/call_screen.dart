@@ -80,11 +80,15 @@ class CallView extends GetView<CallController> {
                       },
                       size: 70,
                     ),
-                    _iconButton(
-                      icon: Icons.volume_up,
-                      color: Colors.white24,
-                      onTap: () {}, // Add speaker toggle logic
-                    ),
+                    Obx(() {
+                      return _iconButton(
+                        icon: Icons.volume_up,
+                        color: controller.isSpeaker.isTrue
+                            ? Colors.white
+                            : Colors.white24,
+                        onTap: controller.toggleSpeaker,
+                      );
+                    }),
                   ],
                 ),
               ),

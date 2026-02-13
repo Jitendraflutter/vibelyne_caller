@@ -70,7 +70,7 @@ class LoginController extends GetxController {
           email: firebaseUser.email ?? "",
           profilePic: firebaseUser.photoURL ?? "",
           gender: "Male", // To be filled by user
-          points: 100, // Default points for new users
+          points: 45, // Default points for new users
           isActive: true,
           bio: "",
         );
@@ -100,7 +100,6 @@ class LoginController extends GetxController {
     LocalStorage.setFirstName(user.fullName); // You can split name if needed
     LocalStorage.setProfileUrl(user.profilePic);
     LocalStorage.setPoints(user.points);
-    // Setting a mock access token or using Firebase UID as token for your middleware
     LocalStorage.setAccessToken(user.uid);
   }
 
