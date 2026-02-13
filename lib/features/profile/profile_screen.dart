@@ -22,7 +22,6 @@ class ProfileScreen extends StatelessWidget {
     final authService = Get.find<AuthService>();
     return ScreenWrapper(
       child: CustomScrollView(
-
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
@@ -213,7 +212,7 @@ class ProfileScreen extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: onPressed ?? () {},
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Row(
           children: [
             Container(

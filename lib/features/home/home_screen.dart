@@ -16,7 +16,9 @@ import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
+import '../../controller/banner_controller.dart';
 import '../../core/constants/app_colors.dart';
+import '../../crud/crud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +29,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController _controller = Get.put(HomeController());
+  final BannerController _bannerController = Get.put(BannerController());
+
   @override
   Widget build(BuildContext context) {
     final authService = Get.find<AuthService>();
@@ -58,14 +62,28 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          SliverToBoxAdapter(
-            child: AnimatedPulseWidget(
-              visible: true,
-              title: "Match Your Valentine ❤️",
-              subtitle: "Tap here to find your partner",
-              onTap: () => MatchDialog.show(_controller.callers),
-            ),
-          ),
+          Obx(() {
+            if (_bannerController.isLoading.value ||
+                _bannerController.currentBanner.value == null) {
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
+            }
+
+            final banner = _bannerController.currentBanner.value!;
+
+            return SliverToBoxAdapter(
+              child: AnimatedPulseWidget(
+                visible: banner.isActive,
+                banner: banner,
+                onTap: () {
+                  if (banner.targetScreen == "/matching_screen") {
+                    MatchDialog.show(_controller.callers);
+                  } else {
+                    Get.toNamed(AppRoutes.COIN);
+                  }
+                },
+              ),
+            );
+          }),
 
           _buildSectionHeader("Recent History"),
 
@@ -85,15 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          AppStrings.appName,
-          style: GoogleFonts.berkshireSwash(
-            color: AppColors.onBackground,
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
-            letterSpacing: 1.5,
-          ),
-        ),
+        Image.asset(AppAssets.v, height: 28, fit: BoxFit.fitHeight),
 
         Row(
           children: [
@@ -288,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     _iconAction(
                       CupertinoIcons.phone_fill,
-                      AppColors.purpleDark,
+                      AppColors.onPrimary,
                       () {
                         _controller.startCall(caller);
                       },
@@ -296,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 8),
                     _iconAction(
                       CupertinoIcons.videocam_fill,
-                      AppColors.purpleDark,
+                      AppColors.onPrimary,
                       () {},
                     ),
                   ],
@@ -383,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _iconAction(
                   CupertinoIcons.phone_fill,
-                  AppColors.purpleDark,
+                  AppColors.onPrimary,
                   () {
                     _controller.startCall(caller);
                   }, // Trigger Cloud Function
@@ -391,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 8),
                 _iconAction(
                   CupertinoIcons.videocam_fill,
-                  AppColors.purpleDark,
+                  AppColors.onPrimary,
                   () {}, // Trigger Agora Video
                 ),
               ],

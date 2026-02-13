@@ -7,6 +7,7 @@ import 'package:voicly/features/coin/widget/point_card.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 import '../../controller/coin_controller.dart';
 import '../../core/constants/app_colors.dart';
+import '../../networks/auth_services.dart';
 
 class CoinScreen extends StatelessWidget {
   const CoinScreen({super.key});
@@ -14,6 +15,7 @@ class CoinScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CoinController());
+    final authService = Get.find<AuthService>();
 
     return ScreenWrapper(
       visibleAppBar: true,
@@ -34,7 +36,7 @@ class CoinScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-                        _buildCurrentBalanceHeader(),
+                        _buildCurrentBalanceHeader(authService),
                         ..._buildCategoryGroup(
                           controller,
                           "Welcome Offers",
@@ -110,7 +112,7 @@ class CoinScreen extends StatelessWidget {
   }
 
   // --- HEADER: CURRENT BALANCE ---
-  Widget _buildCurrentBalanceHeader() {
+  Widget _buildCurrentBalanceHeader(AuthService auth) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
@@ -126,21 +128,25 @@ class CoinScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Current Balance",
                     style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
-                  Text(
-                    "0 VP", // You can later link this to user profile controller
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+
+                  Obx(() {
+                    final user = auth.currentUser.value;
+                    return Text(
+                      "${(auth.currentUser.value?.points ?? 0).toString()} VP",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.onBackground,
+                      ),
+                    );
+                  }),
                 ],
               ),
               Image.asset(
@@ -222,7 +228,6 @@ class CoinScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // --- TOP DETAIL ROW (Only visible when a pack is selected) ---
                   if (hasSelection)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -251,37 +256,41 @@ class CoinScreen extends StatelessWidget {
                     ),
 
                   // --- BOTTOM ACTION ROW ---
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Total Payable",
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 12,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              "Total Payable",
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            hasSelection
-                                ? "₹${selected.price}"
-                                : "Select a pack",
-                            style: TextStyle(
-                              color: hasSelection
-                                  ? Colors.white
-                                  : Colors.white38,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(height: 2),
+                            Expanded(
+                              child: Text(
+                                hasSelection
+                                    ? "₹${selected.price}"
+                                    : "Select a pack",
+                                style: TextStyle(
+                                  color: hasSelection
+                                      ? Colors.white
+                                      : Colors.white38,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      _buildPurchaseButton(controller),
-                    ],
+                          ],
+                        ),
+                        _buildPurchaseButton(controller),
+                      ],
+                    ),
                   ),
                 ],
               ),

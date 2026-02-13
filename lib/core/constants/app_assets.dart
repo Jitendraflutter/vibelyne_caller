@@ -8,5 +8,6 @@ class AppAssets {
 
 
   static const String vp = 'assets/images/vp.webp';
+  static const String v = 'assets/images/v.webp';
 
 }
