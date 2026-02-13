@@ -45,7 +45,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   },
                   child: GlassContainer(
                     borderColor: isSelected
-                        ? AppColors.primaryPurple
+                        ? AppColors.primaryPeach
                         : Colors.transparent,
                     blur: 20,
                     child: AnimatedContainer(
@@ -56,7 +56,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         // borderRadius: BorderRadius.circular(16),
                         // border: Border.all(
                         //   color: isSelected
-                        //       ? AppColors.primaryPurple
+                        //       ? AppColors.primaryPeach
                         //       : Colors.transparent,
                         //   width: 2,
                         // ),
@@ -89,7 +89,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                           if (isSelected)
                             const Icon(
                               Icons.check_circle,
-                              color: AppColors.primaryPurple,
+                              color: AppColors.primaryPeach,
                             ),
                         ],
                       ),

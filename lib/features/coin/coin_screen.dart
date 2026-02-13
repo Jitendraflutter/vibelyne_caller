@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Simplified import
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/features/coin/widget/point_card.dart';
+import 'package:voicly/widget/app_button.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 import '../../controller/coin_controller.dart';
 import '../../core/constants/app_colors.dart';
@@ -19,7 +20,7 @@ class CoinScreen extends StatelessWidget {
 
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Buy Voicly Points",
+      title: "Voicly Points Store",
       child: Stack(
         children: [
           Obx(
@@ -58,7 +59,7 @@ class CoinScreen extends StatelessWidget {
                     ),
                   ),
           ),
-          _buildBottomPurchaseBar(controller),
+          _buildBottomPurchaseBar(controller, context),
         ],
       ),
     );
@@ -162,45 +163,11 @@ class CoinScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentTile(
-    CoinController controller,
-    String title,
-    IconData icon,
-    String value,
-  ) {
-    return Obx(() {
-      bool isSelected = controller.selectedPaymentMethod.value == value;
-      return CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: () => controller.selectedPaymentMethod.value = value,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Row(
-            children: [
-              Icon(icon, color: Colors.white, size: 20),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ),
-              Icon(
-                isSelected
-                    ? CupertinoIcons.check_mark_circled_solid
-                    : CupertinoIcons.circle,
-                color: isSelected ? AppColors.success : Colors.white30,
-                size: 22,
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
   // --- FLOATING BOTTOM PURCHASE BAR ---
-  Widget _buildBottomPurchaseBar(CoinController controller) {
+  Widget _buildBottomPurchaseBar(
+    CoinController controller,
+    BuildContext context,
+  ) {
     return Obx(() {
       final selected = controller.selectedPack;
       final bool hasSelection = selected != null;
@@ -288,50 +255,22 @@ class CoinScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        _buildPurchaseButton(controller),
+                        Obx(() {
+                          bool hasSelection =
+                              controller.selectedIndex.value != -1;
+                          return !hasSelection
+                              ? SizedBox.shrink()
+                              : AppButton(
+                                  width: MediaQuery.sizeOf(context).width / 2,
+                                  text: 'Purchase Now',
+                                  onPressed: () {},
+                                );
+                        }),
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-      );
-    });
-  }
-
-  Widget _buildPurchaseButton(CoinController controller) {
-    return Obx(() {
-      bool hasSelection = controller.selectedIndex.value != -1;
-      return CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: !hasSelection
-            ? null
-            : () {
-                // Trigger Payment Logic Here
-              },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          decoration: BoxDecoration(
-            gradient: !hasSelection ? null : AppColors.logoGradient,
-            color: !hasSelection ? Colors.white10 : null,
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              if (hasSelection)
-                BoxShadow(
-                  color: AppColors.primaryPurple.withOpacity(0.4),
-                  blurRadius: 15,
-                  offset: const Offset(0, 8),
-                ),
-            ],
-          ),
-          child: const Text(
-            "Purchase Now",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
             ),
           ),
         ),

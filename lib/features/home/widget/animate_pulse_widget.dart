@@ -63,7 +63,8 @@ class _AnimatedPulseWidgetState extends State<AnimatedPulseWidget> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryPeach.withOpacity(0.4),
+                // color: AppColors.primaryPeach.withOpacity(0.4),
+                color: AppColors.dark.withOpacity(0.4),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),

@@ -11,7 +11,7 @@ class CallController extends GetxController {
   var callStatus = "Dialing...".obs;
   var callDuration = 0.obs; // In seconds
   var isMuted = false.obs;
-
+  var isSpeaker = false.obs;
   // --- Agora & Timer ---
   late RtcEngine _engine;
   Timer? _timer;
@@ -125,6 +125,10 @@ class CallController extends GetxController {
             }
           }
         });
+  }
+  void toggleSpeaker() {
+    isSpeaker.value = !isSpeaker.value;
+    _engine.setEnableSpeakerphone(isSpeaker.value);
   }
 
   void endCall() async {

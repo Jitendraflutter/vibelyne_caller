@@ -11,7 +11,6 @@ class HomeController extends GetxController {
 
   // Observable list of callers
   RxList<CallerModel> callers = <CallerModel>[].obs;
-  RxBool isGridView = false.obs;
   final cloudService = Get.put(CloudFunctionService());
   final auth = Get.find<AuthService>();
   void startCall(CallerModel user) async {
@@ -57,5 +56,4 @@ class HomeController extends GetxController {
     );
   }
 
-  void toggleView() => isGridView.value = !isGridView.value;
 }
