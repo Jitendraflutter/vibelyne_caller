@@ -1,5 +1,6 @@
 class AppAssets {
   static const String logo = 'assets/images/logo.png';
+  static const String appName = 'assets/images/app_name.webp';
   static const String background = 'assets/images/background.jpg';
   static const String iconHome = 'assets/icons/home.svg';
   static const String iconSettings = 'assets/icons/settings.svg';
@@ -13,7 +14,9 @@ class AppAssets {
   static const String animation1 = 'assets/lottie/Confetti.json';
   static const String animation2 = 'assets/lottie/Stars.json';
 
-  // static final String backgroundWrapper = backgroundImg[0];
+
+
+  static final String backgroundWrapper = backgroundImg[0];
 
   static const List backgroundImg = [
     'https://img.freepik.com/free-vector/technology-style-glowing-shiny-wave-background_1017-23596.jpg?semt=ais_user_personalization&w=740&q=80',

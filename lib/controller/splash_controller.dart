@@ -33,6 +33,7 @@ class SplashController extends GetxController
   }
 
   void _goNext() async {
+    // await Future.delayed(const Duration(seconds: 2000));
     await Future.delayed(const Duration(milliseconds: 300));
     if (LocalStorage.getUid().isNotEmpty) {
       Get.offAllNamed(AppRoutes.HOME);

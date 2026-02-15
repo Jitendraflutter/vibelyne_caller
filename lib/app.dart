@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import 'controller/popup_controller.dart';
 import 'core/constants/app_colors.dart';
 import 'core/route/routes.dart';
 
@@ -35,6 +36,9 @@ class App extends StatelessWidget {
           defaultTransition: Transition.fadeIn,
           initialRoute: AppRoutes.getInitialRoute(),
           getPages: AppPages.pages,
+          initialBinding: BindingsBuilder(() {
+            Get.put(PopupController());
+          }),
         ),
       ),
     );
