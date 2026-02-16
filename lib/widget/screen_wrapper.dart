@@ -149,7 +149,8 @@ class ScreenWrapper extends StatelessWidget {
 }*/
 
 import 'package:flutter/material.dart';
-
+import 'package:lottie/lottie.dart';
+import 'package:voicly/core/constants/app_assets.dart';
 import '../core/constants/app_colors.dart';
 
 class ScreenWrapper extends StatelessWidget {
@@ -165,40 +166,84 @@ class ScreenWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // decoration: const BoxDecoration(gradient: AppColors.peachDarkPurpleSplit),
-      decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment(-0.4, -0.6), // top glow
-          radius: 1.5,
-          colors: [
-            // Color(0xFF5B4D8A), // soft purple glow (top center)
-            AppColors.primaryPeachShade,
-            Color(0xFF2B2F3A), // bluish dark mid
-            Color(0xFF0D0F14), // deep black edges
-          ],
-          stops: [0.0, 0.45, 1.0],
+    final statusBar = MediaQuery.of(context).padding.top;
+
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF0B0220),
+                Color(0xFF14052E),
+                // Color(0xFF1B063A),
+                Color(
+                  0xFF000000,
+                ), // black at bottom to ensure deep fade and hide any content behind
+
+                Color(0xFF0B0C12),
+                Color(0xFF000000),
+              ],
+              stops: [0.0, 0.3, 0.5, 0.8, 1.0],
+            ),
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: visibleAppBar
-            ? AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                leading: const BackButton(color: Colors.white),
-                title: Text(
-                  title ?? '',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+
+        Container(
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(-0.85, -0.95),
+              radius: 0.9,
+              colors: [
+                Color(0xFF1B063A),
+                Color(0xFF14052E),
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.35, 1.0],
+            ),
+          ),
+        ),
+
+        Container(
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(0.7, -0.9),
+              radius: 0.8,
+              colors: [Color(0xFF1B063A), Colors.transparent],
+              stops: [0.0, 1.0],
+            ),
+          ),
+        ),
+
+        // Positioned(
+        //   top: -statusBar,
+        //   left: 0,
+        //   right: 0,
+        //   height: MediaQuery.of(context).size.height * 0.30 + statusBar,
+        //   child: Lottie.asset(AppAssets.animation2, fit: BoxFit.cover, addRepaintBoundary: true, ),
+        // ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: visibleAppBar
+              ? AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  leading: const BackButton(color: Colors.white),
+                  title: Text(
+                    title ?? '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                centerTitle: true,
-              )
-            : null,
-        body: SafeArea(child: child),
-      ),
+                  centerTitle: true,
+                )
+              : null,
+          body: SafeArea(child: child),
+        ),
+      ],
     );
   }
 }

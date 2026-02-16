@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_assets.dart';
+import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:voicly/core/utils/helpers.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/glass_container.dart';
@@ -93,8 +95,9 @@ class ProfileScreen extends StatelessWidget {
                             "Security & Passwords",
                           ),
                           _profileTile(
-                            onPressed: () => Get.toNamed(AppRoutes.BLOCKED_USER_SCREEN),
-                            CupertinoIcons.slash_circle,
+                            onPressed: () =>
+                                Get.toNamed(AppRoutes.BLOCKED_USER_SCREEN),
+                            CupertinoIcons.nosign,
                             "Blocked Users",
                             "Manage restrictions",
                           ),
@@ -115,21 +118,35 @@ class ProfileScreen extends StatelessWidget {
                             "Notifications",
                             "Sounds & Alerts",
                           ),
-                          _profileTile(
-                            CupertinoIcons.eye_slash_fill,
-                            "Privacy Policy",
-                            "Data usage & safety",
-                          ),
+
                           _profileTile(
                             onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
-                            CupertinoIcons.gear_alt,
+                            CupertinoIcons.globe,
                             "Language",
                             "App language settings",
                           ),
+
+                          _profileTile(
+                            CupertinoIcons.shield_lefthalf_fill,
+                            "Privacy Policy",
+                            "Data usage & safety",
+                            onPressed: () =>
+                                Helpers.launchURL(AppStrings.privacyPolicy),
+                          ),
+
                           _profileTile(
                             CupertinoIcons.doc_text_fill,
                             "Terms & Conditions",
                             "Legal agreements",
+                            onPressed: () =>
+                                Helpers.launchURL(AppStrings.termsOfService),
+                          ),
+                          _profileTile(
+                            CupertinoIcons.person_2_fill,
+                            "Community Guidelines",
+                            "Rules & Standards",
+                            onPressed: () =>
+                                Helpers.launchURL(AppStrings.community),
                           ),
                         ],
                       ),
@@ -144,9 +161,17 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           _profileTile(
                             CupertinoIcons.question_circle_fill,
-                            "Help Center",
-                            onPressed: () {},
-                            "FAQs & Chat Support",
+                            "Support Center",
+                            onPressed: () =>
+                                Get.toNamed(AppRoutes.SUPPORT_SCREEN),
+                            "Get help & contact us",
+                          ),
+                          _profileTile(
+                            CupertinoIcons.money_dollar_circle,
+                            "Become Caller",
+                            onPressed: () =>
+                                Get.toNamed(AppRoutes.BECOME_CALLER_SCREEN),
+                            "Start earning by joining our caller program",
                           ),
                           _profileTile(
                             CupertinoIcons.square_arrow_right,
@@ -159,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                               );
                             },
                             "Logout",
-                            "",
+                            "Sign out of your account",
                             isDestructive: true,
                           ),
                         ],
@@ -220,16 +245,16 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color:
-                    (isDestructive ? AppColors.error : AppColors.primaryPeach)
+                    (isDestructive ? AppColors.error : AppColors.primaryLite
+                        // AppColors.primaryPeach
+                        )
                         .withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
                 size: 20,
-                color: isDestructive
-                    ? AppColors.error
-                    : AppColors.primaryPeach,
+                color: isDestructive ? AppColors.error : AppColors.primaryPeach,
               ),
             ),
             const SizedBox(width: 15),

@@ -213,7 +213,7 @@ class CoinScreen extends StatelessWidget {
                             Text(
                               "You save ₹$savings!",
                               style: const TextStyle(
-                                color: AppColors.success,
+                                color: AppColors.green,
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/home_controller.dart';
+import 'package:voicly/controller/popup_controller.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/home/widget/animate_pulse_widget.dart';
@@ -30,10 +31,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController _controller = Get.put(HomeController());
   final BannerController _bannerController = Get.put(BannerController());
+  final popupController = Get.find<PopupController>();
+  final authService = Get.find<AuthService>();
+
+  @override
+  void initState() {
+    popupController.checkBalanceAndCall(
+      authService.currentUser.value?.points.toInt() ?? 0,
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authService = Get.find<AuthService>();
     return ScreenWrapper(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -96,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image.asset(AppAssets.v, height: 28, fit: BoxFit.fitHeight),
+        Image.asset(AppAssets.appName, height: 25, fit: BoxFit.fitHeight),
 
         Row(
           children: [

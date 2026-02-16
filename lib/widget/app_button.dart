@@ -9,8 +9,6 @@ class AppButton extends StatelessWidget {
   final bool iconRight;
   final double? width;
 
-
-
   const AppButton({
     super.key,
     required this.text,
@@ -29,12 +27,13 @@ class AppButton extends StatelessWidget {
         width: width ?? double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.primaryPeachShade,
-              AppColors.primaryPeach,
-            ],
-          ),
+          // gradient: LinearGradient(
+          //   colors: [
+          //     AppColors.primaryPeachShade,
+          //     AppColors.primaryPeach,
+          //   ],
+          // ),
+          gradient: AppColors.primaryButtonGradient,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -47,40 +46,40 @@ class AppButton extends StatelessWidget {
         child: Center(
           child: icon == null
               ? Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
-            ),
-          )
+                  text,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )
               : Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: iconRight
-                ? [
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: iconRight
+                      ? [
+                          Text(
+                            text,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(icon, color: Colors.white, size: 20),
+                        ]
+                      : [
+                          Icon(icon, color: Colors.white, size: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            text,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              Icon(icon, color: Colors.white, size: 20),
-            ]
-                : [
-              Icon(icon, color: Colors.white, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 import '../../../core/constants/app_colors.dart';
@@ -17,7 +16,8 @@ class BaseAuthLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWrapper( // Added Scaffold to provide a proper white background and keyboard handling
+    return ScreenWrapper(
+      // Added Scaffold to provide a proper white background and keyboard handling
       child: Stack(
         children: [
           // Decorative top gradient splash
@@ -34,14 +34,18 @@ class BaseAuthLayout extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: LayoutBuilder( // 1. Added LayoutBuilder to get screen constraints
+            child: LayoutBuilder(
+              // 1. Added LayoutBuilder to get screen constraints
               builder: (context, constraints) {
-                return SingleChildScrollView( // 2. Added ScrollView to prevent overflow on small screens
+                return SingleChildScrollView(
+                  // 2. Added ScrollView to prevent overflow on small screens
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight, // 3. Force column to be at least screen height
+                      minHeight: constraints
+                          .maxHeight, // 3. Force column to be at least screen height
                     ),
-                    child: IntrinsicHeight( // 4. Allows Spacer() to work correctly
+                    child: IntrinsicHeight(
+                      // 4. Allows Spacer() to work correctly
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
@@ -61,7 +65,7 @@ class BaseAuthLayout extends StatelessWidget {
                               subtitle,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: AppColors.onBackground.withOpacity(0.6),
+                                color: AppColors.grey,
                               ),
                             ),
                             const SizedBox(height: 60),
@@ -85,6 +89,7 @@ class BaseAuthLayout extends StatelessWidget {
     );
   }
 }
+
 /*
 
 import 'package:flutter/material.dart';

@@ -29,14 +29,14 @@ class EnhancedCoinCard extends StatelessWidget {
               : Colors.white.withOpacity(0.08),
           border: Border.all(
             color: isSelected
-                ? AppColors.primaryPeach
-                : (pack.isPopular ? AppColors.primaryPeach : Colors.white12),
+                ? AppColors.primaryLite
+                : (pack.isPopular ? AppColors.green : Colors.white12),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primaryPeach.withOpacity(0.2),
+                    color: AppColors.primaryLite.withOpacity(0.2),
                     blurRadius: 15,
                   ),
                 ]
@@ -56,7 +56,7 @@ class EnhancedCoinCard extends StatelessWidget {
                       vertical: 5,
                     ),
                     decoration: const BoxDecoration(
-                      color: AppColors.success,
+                      color: AppColors.green,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(15),
                       ),

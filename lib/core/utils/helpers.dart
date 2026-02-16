@@ -1,3 +1,5 @@
+import 'package:url_launcher/url_launcher.dart';
+
 class Helpers {
   static String ageFormatter(String? date) {
     if (date == null || date.isEmpty) return "";
@@ -18,6 +20,20 @@ class Helpers {
       return "$years Y";
     } catch (e) {
       return "";
+    }
+  }
+
+
+  static Future<void> launchURL(String urlString) async {
+    // Ensure the URL has a scheme
+    final String fullUrl = urlString.startsWith('http')
+        ? urlString
+        : 'https://$urlString';
+
+    final Uri url = Uri.parse(fullUrl);
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $fullUrl');
     }
   }
 }
