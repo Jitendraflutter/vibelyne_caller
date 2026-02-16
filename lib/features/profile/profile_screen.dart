@@ -90,11 +90,6 @@ class ProfileScreen extends StatelessWidget {
                           ),
 
                           _profileTile(
-                            CupertinoIcons.shield_fill,
-                            "Account Settings",
-                            "Security & Passwords",
-                          ),
-                          _profileTile(
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.BLOCKED_USER_SCREEN),
                             CupertinoIcons.nosign,

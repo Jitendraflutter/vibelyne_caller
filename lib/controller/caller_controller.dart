@@ -4,7 +4,6 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class CallController extends GetxController {
   // --- Observables ---
@@ -46,7 +45,6 @@ class CallController extends GetxController {
 
   Future<void> _initAgora() async {
     // 1. Request Permissions
-    await [Permission.microphone].request();
 
     // 2. Initialize Engine
     _engine = createAgoraRtcEngine();

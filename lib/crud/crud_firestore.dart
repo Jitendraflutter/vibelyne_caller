@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
@@ -56,7 +57,6 @@ final List<Map<String, dynamic>> attractiveBanners = [
     "is_active": true,
   },
 ];
-
 
 Future<void> injectPointPacks() async {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -198,5 +198,35 @@ Future<void> injectPointPacks() async {
     print("✅ All 9 packs injected successfully!");
   } catch (e) {
     print("❌ Error injecting packs: $e");
+  }
+}
+
+Future<void> syncAvatarsToFirestore() async {
+  try {
+    print("Starting Storage fetch...");
+    // 1. Reference the folder from your screenshot
+    final storageRef = FirebaseStorage.instance.ref("avatars/default");
+
+    // 2. List all files
+    final ListResult result = await storageRef.listAll();
+    print("Found ${result.items.length} files.");
+
+    List<String> urlList = [];
+
+    // 3. Loop and get URLs
+    for (var ref in result.items) {
+      String url = await ref.getDownloadURL();
+      urlList.add(url);
+    }
+
+    // 4. Write to Firestore: avatar/default
+    await FirebaseFirestore.instance.collection('avatar').doc('default').set({
+      'urls': urlList,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+
+    print("Success! Firestore updated with ${urlList.length} URLs.");
+  } catch (e) {
+    print("Error during sync: $e");
   }
 }

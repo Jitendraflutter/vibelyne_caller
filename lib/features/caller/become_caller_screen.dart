@@ -94,8 +94,7 @@ class BecomeCallerScreen extends StatelessWidget {
               text: 'Apply Now',
               onPressed: () {
                 warningSnack(
-                  'Under Construction',
-                  'This feature is coming soon! Stay tuned.',
+                  'App Under Construction... \nThis feature is coming soon! Stay tuned.',
                 );
               },
             ),
