@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/widget/app_button.dart';
 import 'package:voicly/features/auth/widget/base_layout.dart';
-import '../../core/constants/app_colors.dart';
+import 'package:core/core.dart';
 
 class OTPScreen extends StatelessWidget {
   final VoidCallback onNext;

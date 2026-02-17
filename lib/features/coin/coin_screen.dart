@@ -1,14 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Simplified import
-import 'package:voicly/core/constants/app_assets.dart';
+import 'package:get/get.dart';
+import 'package:core/core.dart';
 import 'package:voicly/features/coin/widget/point_card.dart';
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
 import '../../controller/coin_controller.dart';
-import '../../core/constants/app_colors.dart';
 import '../../networks/auth_services.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+
 
 class CoinScreen extends StatelessWidget {
   const CoinScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:voicly/core/utils/show_custom_notification.dart';
+import 'package:core/core.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/networks/user_service.dart';
 

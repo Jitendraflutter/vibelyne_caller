@@ -1,27 +1,18 @@
 import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/home_controller.dart';
 import 'package:voicly/controller/popup_controller.dart';
-import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/home/widget/animate_pulse_widget.dart';
 import 'package:voicly/features/home/widget/match_dialog.dart';
 import 'package:voicly/features/home/widget/profile_sheet.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'package:voicly/widget/call_button.dart';
-import 'package:voicly/widget/glass_container.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-import 'package:voicly/widget/voicly_avatar.dart';
-
 import '../../controller/banner_controller.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/utils/helpers.dart';
-import '../../crud/crud_firestore.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constant/app_assets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -181,6 +172,130 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildListView(List<CallerModel> caller) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final caller = _controller.callers[index];
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          child: GlassContainer(
+            child: Row(
+              children: [
+                VoiclyAvatar(
+                  radius: 25,
+                  imageUrl: caller.profilePic.isNotEmpty
+                      ? caller.profilePic
+                      : AppAssets.userUrl,
+                  isOnline: caller.isOnline ?? false,
+                  onTap: () =>
+                      Get.bottomSheet(ProfileSheet(callerModel: caller)),
+                ),
+                const SizedBox(width: 15),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        caller.fullName, // Dynamic Name
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: AppColors.onBackground,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        Helpers.ageFormatter(
+                          caller.dob.toString(),
+                        ), // Dynamic Age
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryPeach,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        caller.isOnline == true
+                            ? "Online"
+                            : "Offline", // Dynamic Status
+                        style: TextStyle(color: AppColors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(width: 4),
+                Row(
+                  children: [
+                    CallButton(
+                      icon: CupertinoIcons.phone_fill,
+                      color: AppColors.onPrimary,
+                      onTap: () {
+                        _controller.startCall(caller);
+                      }, // Trigger Cloud Function
+                    ),
+                    const SizedBox(width: 8),
+                    CallButton(
+                      icon: CupertinoIcons.videocam_fill,
+                      color: AppColors.onPrimary,
+                      onTap: () {}, // Trigger Agora Video
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }, childCount: _controller.callers.length),
+    );
+  }
+
+  Widget _buildHistoryButton(String title) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.onBackground.withOpacity(0.8),
+              ),
+            ),
+            const Spacer(),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                Get.toNamed(AppRoutes.HISTORY);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                ),
+                child: Icon(
+                  CupertinoIcons.clock,
+                  color: AppColors.onBackground,
+                  size: 20,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /*
   Widget _buildTopIcons() {
     return SliverToBoxAdapter(
       child: SizedBox(
@@ -285,127 +400,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Widget _buildListView(List<CallerModel> caller) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        final caller = _controller.callers[index];
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: GlassContainer(
-            child: Row(
-              children: [
-                VoiclyAvatar(
-                  radius: 30,
-                  imageUrl: caller.profilePic.isNotEmpty
-                      ? caller.profilePic
-                      : AppAssets.userUrl,
-                  isOnline: caller.isOnline ?? false,
-                  onTap: () =>
-                      Get.bottomSheet(ProfileSheet(callerModel: caller)),
-                ),
-                const SizedBox(width: 15),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        caller.fullName, // Dynamic Name
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.onBackground,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        Helpers.ageFormatter(
-                          caller.dob.toString(),
-                        ), // Dynamic Age
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primaryPeach,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        caller.isOnline == true
-                            ? "Online"
-                            : "Offline", // Dynamic Status
-                        style: TextStyle(color: AppColors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(width: 4),
-                Row(
-                  children: [
-                    CallButton(
-                      icon: CupertinoIcons.phone_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {
-                        _controller.startCall(caller);
-                      }, // Trigger Cloud Function
-                    ),
-                    const SizedBox(width: 8),
-                    CallButton(
-                      icon: CupertinoIcons.videocam_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {}, // Trigger Agora Video
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      }, childCount: _controller.callers.length),
-    );
-  }
-
-  Widget _buildHistoryButton(String title) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.onBackground.withOpacity(0.8),
-              ),
-            ),
-            const Spacer(),
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {
-                Get.toNamed(AppRoutes.HISTORY);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
-                ),
-                child: Icon(
-                  CupertinoIcons.clock,
-                  color: AppColors.onBackground,
-                  size: 20,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+*/
 }

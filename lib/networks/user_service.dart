@@ -1,8 +1,9 @@
 // lib/data/repositories/user_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:voicly/core/utils/show_custom_notification.dart';
 import 'package:voicly/model/user_model.dart';
+import 'package:core/core.dart';
 
 class UserRepository extends GetxService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -48,7 +49,7 @@ class UserRepository extends GetxService {
         // Document does not exist - this is a FIRST TIME login
         await userRef.set(user.toMap());
 
-        print("✅ New user record created for: ${user.email}");
+        debugPrint("✅ New user record created for: ${user.email}");
         Get.snackbar(
           "Welcome!",
           "Your account has been created successfully.",
@@ -56,7 +57,7 @@ class UserRepository extends GetxService {
         );
       } else {
         // Document exists - returning user
-        print(
+        debugPrint(
           "ℹ️ User ${user.uid} already exists. Skipping document creation.",
         );
 
@@ -64,7 +65,7 @@ class UserRepository extends GetxService {
         // await userRef.update({'isActive': true});
       }
     } catch (e) {
-      print("❌ Error in createUserIfNotExist: $e");
+      debugPrint("❌ Error in createUserIfNotExist: $e");
       errorSnack("Could not verify user data.");
     }
   }

@@ -1,20 +1,16 @@
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:voicly/core/constants/app_assets.dart';
-import 'package:voicly/core/constants/app_strings.dart';
 import 'package:voicly/core/route/routes.dart';
-import 'package:voicly/core/utils/helpers.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'package:voicly/widget/glass_container.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-
-import '../../core/constants/app_colors.dart';
 import 'LogoutModal.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

@@ -1,16 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:voicly/core/constants/app_assets.dart';
-import 'package:voicly/core/constants/app_colors.dart';
-import 'package:voicly/core/constants/app_strings.dart';
-import 'package:voicly/core/utils/show_custom_notification.dart';
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/glass_container.dart';
-
-import '../../../core/utils/helpers.dart';
+import 'package:core/core.dart';
 import '../../../model/caller_model.dart';
-import '../../../widget/voicly_avatar.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+
 
 class ProfileSheet extends StatelessWidget {
   final CallerModel callerModel;

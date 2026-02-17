@@ -1,4 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class CloudFunctionService extends GetxService {
@@ -55,14 +56,14 @@ class CloudFunctionService extends GetxService {
 
       // Check the 'success' field from your Node.js response
       if (response.data['success'] == true) {
-        print("✅ Deduction Successful: 9 Points");
+        debugPrint("✅ Deduction Successful: 9 Points");
         return true;
       } else {
-        print("⚠️ Deduction Failed: ${response.data['message']}");
+        debugPrint("⚠️ Deduction Failed: ${response.data['message']}");
         return false;
       }
     } catch (e) {
-      print("❌ Deduction Error: $e");
+      debugPrint("❌ Deduction Error: $e");
       return false; // Fail safe
     }
   }
@@ -78,9 +79,9 @@ class CloudFunctionService extends GetxService {
         'status': status,
         'otherUserToken': otherUserToken,
       });
-      print("✅ Status updated to: $status");
+      debugPrint("✅ Status updated to: $status");
     } catch (e) {
-      print("❌ Error updating status: $e");
+      debugPrint("❌ Error updating status: $e");
     }
   }
 
@@ -104,7 +105,7 @@ class CloudFunctionService extends GetxService {
   }
 
   void _handleError(String functionName, Object error) {
-    print("❌ CloudFunctionService Error [$functionName]: $error");
+    debugPrint("❌ CloudFunctionService Error [$functionName]: $error");
     Get.snackbar("Server Error", "Something went wrong with $functionName");
   }
 }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/core/constants/app_colors.dart'; // Ensure correct path
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:core/core.dart';
 
-import '../../core/utils/show_custom_notification.dart';
 
 class BecomeCallerScreen extends StatelessWidget {
   const BecomeCallerScreen({super.key});

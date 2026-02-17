@@ -5,12 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:voicly/controller/auth/login_controller.dart';
-import 'package:voicly/core/constants/app_assets.dart';
-import 'package:voicly/core/constants/app_strings.dart';
-import 'package:voicly/core/constants/app_svg.dart';
-import 'package:voicly/core/utils/helpers.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../coin/coin_screen.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/core/constant/app_svg.dart';
 import 'base_layout.dart';
 
 class PhoneInputScreen extends StatelessWidget {
@@ -36,11 +33,7 @@ class PhoneInputScreen extends StatelessWidget {
               color: Colors.blue.withOpacity(0.05),
               shape: BoxShape.circle,
             ),
-            child: Image.asset(
-              AppAssets
-                  .logo, // Or a specific "Welcome/Auth" illustration if you have one
-              fit: BoxFit.contain,
-            ),
+            child: Image.asset(AppAssets.logo, fit: BoxFit.contain),
           ),
 
           const SizedBox(height: 40),

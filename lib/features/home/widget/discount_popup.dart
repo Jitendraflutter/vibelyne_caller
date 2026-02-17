@@ -3,11 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:voicly/core/constants/app_colors.dart';
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/voicly_avatar.dart';
 import '../../../controller/popup_controller.dart';
 import '../model/popup_model.dart';
+import 'package:core/core.dart';
+
 
 class DynamicPopup extends StatelessWidget {
   final PopupModel data;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/auth/widget/phone_input.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:core/core.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -12,14 +12,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final PageController _pageController = PageController();
 
-  void _nextPage() {
-    _pageController.nextPage(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

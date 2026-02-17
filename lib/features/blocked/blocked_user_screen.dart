@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:voicly/widget/glass_container.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-import '../../core/constants/app_assets.dart';
-import '../../core/constants/app_colors.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constant/app_assets.dart';
 
 class BlockedUsersScreen extends StatelessWidget {
   const BlockedUsersScreen({super.key});
@@ -57,7 +55,10 @@ class BlockedUsersScreen extends StatelessWidget {
 
                 // Unblock Action
                 CupertinoButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   color: AppColors.primaryPeach.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                   onPressed: () {

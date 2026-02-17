@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
@@ -195,20 +196,21 @@ Future<void> injectPointPacks() async {
 
   try {
     await batch.commit();
-    print("✅ All 9 packs injected successfully!");
+    debugPrint("✅ All 9 packs injected successfully!");
   } catch (e) {
-    print("❌ Error injecting packs: $e");
+    debugPrint("❌ Error injecting packs: $e");
   }
 }
 
 Future<void> syncAvatarsToFirestore() async {
   try {
-    print("Starting Storage fetch...");
+    debugPrint("Starting Storage fetch...");
     // 1. Reference the folder from your screenshot
     final storageRef = FirebaseStorage.instance.ref("avatars/default");
 
     // 2. List all files
     final ListResult result = await storageRef.listAll();
+    debugPrint("Found ${result.items.length} files.");
 
     List<String> urlList = [];
 
@@ -222,8 +224,8 @@ Future<void> syncAvatarsToFirestore() async {
       'updatedAt': FieldValue.serverTimestamp(),
     });
 
-    print("Success! Firestore updated with ${urlList.length} URLs.");
+    debugPrint("Success! Firestore updated with ${urlList.length} URLs.");
   } catch (e) {
-    print("Error during sync: $e");
+    debugPrint("Error during sync: $e");
   }
 }

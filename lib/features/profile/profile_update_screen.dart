@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/auth/update_user_profile_controller.dart';
-import 'package:voicly/core/constants/app_colors.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:core/core.dart';
 
 class ProfileUpdateScreen extends StatelessWidget {
   const ProfileUpdateScreen({super.key});

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/widget/app_button.dart';
-import 'package:voicly/widget/glass_container.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:core/core.dart';
 
-import '../../core/constants/app_colors.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -52,7 +49,23 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(),
+                      decoration: BoxDecoration(
+                        // color: AppColors.surface,
+                        // borderRadius: BorderRadius.circular(16),
+                        // border: Border.all(
+                        //   color: isSelected
+                        //       ? AppColors.primaryPeach
+                        //       : Colors.transparent,
+                        //   width: 2,
+                        // ),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.05),
+                        //     blurRadius: 10,
+                        //     offset: const Offset(0, 4),
+                        //   ),
+                        // ],
+                      ),
                       child: Row(
                         children: [
                           Text(

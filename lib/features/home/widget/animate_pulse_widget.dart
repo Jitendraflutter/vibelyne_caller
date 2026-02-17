@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:voicly/core/constants/app_colors.dart';
+import 'package:core/core.dart';
 import 'package:voicly/features/home/model/banner_model.dart';
-import '../../../core/constants/app_assets.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+
 
 class AnimatedPulseWidget extends StatefulWidget {
   final BannerModel banner;

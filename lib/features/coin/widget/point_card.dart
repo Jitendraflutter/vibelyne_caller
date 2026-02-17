@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import '../../../core/constants/app_assets.dart';
-import '../../../core/constants/app_colors.dart';
+import 'package:core/core.dart';
 import '../model/point_pack_model.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+
 
 class EnhancedCoinCard extends StatelessWidget {
   final PointPackModel pack; // Passing the full model

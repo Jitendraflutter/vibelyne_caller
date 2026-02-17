@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/core/constants/app_strings.dart';
-import 'package:voicly/core/utils/app_info.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:core/core.dart';
+
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});

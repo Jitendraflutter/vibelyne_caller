@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/core/constants/app_colors.dart';
+import 'package:core/core.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hint;

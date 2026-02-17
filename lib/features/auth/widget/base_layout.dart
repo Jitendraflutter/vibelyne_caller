@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-import '../../../core/constants/app_colors.dart';
+import 'package:core/core.dart';
+
 
 class BaseAuthLayout extends StatelessWidget {
   final String title;

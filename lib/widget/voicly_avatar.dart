@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:core/core.dart';
 
-import '../../core/constants/app_colors.dart';
 
 class VoiclyAvatar extends StatelessWidget {
   final String imageUrl;

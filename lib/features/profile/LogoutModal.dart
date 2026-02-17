@@ -4,9 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/core/utils/local_storage.dart';
-import 'package:voicly/widget/app_button.dart';
+import 'package:core/core.dart';
 
-import '../../core/constants/app_colors.dart';
 
 class LogoutModal extends StatelessWidget {
   const LogoutModal({super.key});

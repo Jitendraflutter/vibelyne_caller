@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-
 import 'controller/popup_controller.dart';
-import 'core/constants/app_colors.dart';
+import 'package:core/core.dart';
 import 'core/route/routes.dart';
 
 class App extends StatelessWidget {

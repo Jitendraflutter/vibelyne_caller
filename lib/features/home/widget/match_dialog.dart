@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:voicly/widget/glass_container.dart';
-import 'package:voicly/core/constants/app_colors.dart';
-
 import '../../../controller/match_controller.dart';
 import '../../../model/caller_model.dart';
+import 'package:core/core.dart';
+
 
 class MatchDialog {
   static void show(List<CallerModel> candidates) {
