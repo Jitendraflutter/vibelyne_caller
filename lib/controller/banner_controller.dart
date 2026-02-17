@@ -25,10 +25,7 @@ class BannerController extends GetxController {
         .listen(
           (snapshot) {
             if (snapshot.docs.isNotEmpty) {
-              // Logic: Pick the first active banner or shuffle
-              // To keep it consistent but reactive, we take the first one available
               var doc = snapshot.docs.first;
-
               currentBanner.value = BannerModel.fromFirestore(
                 doc.data(),
                 doc.id,

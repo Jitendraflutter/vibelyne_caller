@@ -36,7 +36,7 @@ dependencies:
   intl: ^0.20.2
   url_launcher: ^6.3.2
   firebase_storage: ^13.0.6
-
+  flutter_callkit_incoming: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

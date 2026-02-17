@@ -209,17 +209,14 @@ Future<void> syncAvatarsToFirestore() async {
 
     // 2. List all files
     final ListResult result = await storageRef.listAll();
-    print("Found ${result.items.length} files.");
 
     List<String> urlList = [];
 
-    // 3. Loop and get URLs
     for (var ref in result.items) {
       String url = await ref.getDownloadURL();
       urlList.add(url);
     }
 
-    // 4. Write to Firestore: avatar/default
     await FirebaseFirestore.instance.collection('avatar').doc('default').set({
       'urls': urlList,
       'updatedAt': FieldValue.serverTimestamp(),

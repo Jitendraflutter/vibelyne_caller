@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
+import 'package:voicly/core/route/routes.dart';
+
+import 'caller_overlay_controller.dart';
 
 class CallController extends GetxController {
   var callStatus = "Dialing...".obs;
@@ -11,11 +15,17 @@ class CallController extends GetxController {
   var isMuted = false.obs;
   var isSpeaker = false.obs;
   late RtcEngine _engine;
+  var myVolume = 0.obs;
+  var remoteVolume = 0.obs;
+  int agoraRemoteUserId = 0;
   Timer? _timer;
-
+  final CallOverlayController overlayController =
+      Get.find<CallOverlayController>();
   final String channelId = Get.arguments['channel_id'];
   final String rtcToken = Get.arguments['rtc_token'];
   final String callerName = Get.arguments['caller_name'];
+  final String callerUid = Get.arguments['caller_uid'] ?? "";
+  final String callerAvatar = Get.arguments['caller_avatar'] ?? "";
   final String receiverToken = Get.arguments['receiver_token'] ?? "";
   final bool isReceiver = Get.arguments['is_receiver'] ?? false;
 
@@ -61,11 +71,22 @@ class CallController extends GetxController {
           print("Successfully joined channel: ${connection.channelId}");
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
-          // --- 🟢 USER PICKED UP ---
+          FlutterCallkitIncoming.setCallConnected(channelId);
+          agoraRemoteUserId = remoteUid;
           FlutterRingtonePlayer().stop(); // Stop the dialing tone
           callStatus.value = "Connected";
           _startTimer();
         },
+        onAudioVolumeIndication:
+            (connection, speakers, speakerNumber, totalVolume) {
+              for (var speaker in speakers) {
+                if (speaker.uid == 0) {
+                  myVolume.value = speaker.volume ?? 0;
+                } else if (speaker.uid == agoraRemoteUserId) {
+                  remoteVolume.value = speaker.volume ?? 0;
+                }
+              }
+            },
         onUserOffline:
             (
               RtcConnection connection,
@@ -128,11 +149,31 @@ class CallController extends GetxController {
   }
 
   void endCall() async {
+    overlayController.isMinimized.value = false;
     _timer?.cancel();
     FlutterRingtonePlayer().stop();
+    await FlutterCallkitIncoming.endAllCalls();
+    Get.delete<CallController>(force: true);
+    if (Get.currentRoute == AppRoutes.CALL_SCREEN) {
+      Get.back(result: "end_call");
+    }
     await _engine.leaveChannel();
     await _engine.release();
     Get.back();
+  }
+
+  void returnToCallScreen() {
+    overlayController.isMinimized.value = false;
+    Get.toNamed(
+      AppRoutes.CALL_SCREEN,
+      arguments: {
+        'channel_id': channelId,
+        'rtc_token': rtcToken,
+        'caller_name': callerName,
+        'caller_uid': callerUid,
+        'caller_avatar': callerAvatar,
+      },
+    );
   }
 
   @override

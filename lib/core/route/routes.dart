@@ -12,6 +12,7 @@ import 'package:voicly/features/profile/profile_screen.dart';
 import 'package:voicly/features/profile/profile_update_screen.dart';
 import 'package:voicly/features/splash/splash_screen.dart';
 import 'package:voicly/features/support/support_screen.dart';
+
 import '../../features/caller/become_caller_screen.dart';
 import '../utils/local_storage.dart';
 import 'binding.dart';
@@ -65,7 +66,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.CALL_SCREEN,
       page: () => CallView(),
-      binding: BindingsBuilder.put(() => CallController()),
+      binding: BindingsBuilder.put(() => CallController(), permanent: true),
     ),
 
     GetPage(name: AppRoutes.HISTORY, page: () => CallHistoryScreen()),
@@ -74,6 +75,9 @@ class AppPages {
       page: () => BlockedUsersScreen(),
     ),
     GetPage(name: AppRoutes.SUPPORT_SCREEN, page: () => SupportScreen()),
-    GetPage(name: AppRoutes.BECOME_CALLER_SCREEN, page: () => BecomeCallerScreen()),
+    GetPage(
+      name: AppRoutes.BECOME_CALLER_SCREEN,
+      page: () => BecomeCallerScreen(),
+    ),
   ];
 }

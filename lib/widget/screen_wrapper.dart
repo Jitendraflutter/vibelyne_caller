@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voicly/features/call/mini_call_overlay.dart';
 
 class ScreenWrapper extends StatelessWidget {
   final Widget child;
@@ -80,6 +81,12 @@ class ScreenWrapper extends StatelessWidget {
                 )
               : null,
           body: SafeArea(child: child),
+        ),
+        const Positioned(
+          bottom: 10,
+          left: 0,
+          right: 0,
+          child: MiniCallOverlay(),
         ),
       ],
     );
