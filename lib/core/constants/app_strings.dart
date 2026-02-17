@@ -9,10 +9,13 @@ class AppStrings {
   static const String signInWithGoogle = "Sign in with Google";
   static const String email = "support@voicly.app";
 
-  static const String domain = "voiclyapp.netlify.app";
+  static const String domain = "voicly.in";
   static const String privacyPolicy = "$domain/privacy-policy";
   static const String termsOfService = "$domain/terms";
   static const String community = "$domain/community";
   static const String voiclyPoints = "$domain/coins";
   static const String accountDeletion = "$domain/delete";
+
+  static const String appStatus = 'App under construction..';
+  static const String voiclyBio = 'Voicly is my favorite place';
 }

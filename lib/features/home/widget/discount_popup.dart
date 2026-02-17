@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/constants/app_colors.dart';
 import 'package:voicly/widget/app_button.dart';
+import 'package:voicly/widget/voicly_avatar.dart';
 import '../../../controller/popup_controller.dart';
 import '../model/popup_model.dart';
 
@@ -138,12 +139,7 @@ class DynamicPopup extends StatelessWidget {
             height: 70,
             width: 70,
             child: imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) =>
-                        const Icon(CupertinoIcons.photo),
-                  )
+                ? VoiclyAvatar(imageUrl: imageUrl)
                 : Icon(data.icon, color: Colors.white, size: 30),
           ),
         ),

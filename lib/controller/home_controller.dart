@@ -5,6 +5,7 @@ import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/networks/cloud_function_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -14,7 +15,8 @@ class HomeController extends GetxController {
   final cloudService = Get.put(CloudFunctionService());
   final auth = Get.find<AuthService>();
   void startCall(CallerModel user) async {
-    // Generate the Deterministic ID we discussed
+    bool allowed = await _handlePermission();
+    if (!allowed) return;
     String channelId = "call_${auth.currentUser.value?.uid ?? ""}_${user.uid}";
     Get.context?.loaderOverlay.show();
     final result = await cloudService.initiateCall(
@@ -40,6 +42,26 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<bool> _handlePermission() async {
+    final status = await [Permission.microphone].request();
+    final micStatus = status[Permission.microphone];
+
+    if (micStatus == null || !micStatus.isGranted) {
+      if (micStatus?.isPermanentlyDenied ?? false) {
+        Get.snackbar(
+          "Permission",
+          "Mic permanently denied. Enable from settings",
+        );
+        await openAppSettings();
+      } else {
+        Get.snackbar("Permission", "Mic permission required for call");
+      }
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -55,5 +77,4 @@ class HomeController extends GetxController {
           ),
     );
   }
-
 }

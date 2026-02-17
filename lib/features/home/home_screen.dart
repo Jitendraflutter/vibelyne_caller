@@ -10,11 +10,13 @@ import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/home/widget/animate_pulse_widget.dart';
 import 'package:voicly/features/home/widget/match_dialog.dart';
+import 'package:voicly/features/home/widget/profile_sheet.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/widget/call_button.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
+import 'package:voicly/widget/voicly_avatar.dart';
 
 import '../../controller/banner_controller.dart';
 import '../../core/constants/app_colors.dart';
@@ -158,40 +160,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 4),
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () => Get.toNamed(AppRoutes.PROFILE),
-              child: Obx(() {
-                final user = auth.currentUser.value;
+            const SizedBox(width: 8),
+            Obx(() {
+              final user = auth.currentUser.value;
 
-                return Hero(
-                  tag: "profile_pic",
-                  child: Container(
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.3),
-                      ),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: user?.profilePic ?? "",
-                      height: 25,
-                      width: 25,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                value: downloadProgress.progress,
-                              ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  ),
-                );
-              }),
-            ),
+              return Hero(
+                tag: "profile_pic",
+                child: VoiclyAvatar(
+                  radius: 14,
+                  borderWidth: 1.0,
+                  imageUrl: user?.profilePic ?? AppAssets.userUrl,
+                  showStatus: false,
+                  onTap: () => Get.toNamed(AppRoutes.PROFILE),
+                ),
+              );
+            }),
           ],
         ),
       ],
@@ -225,37 +208,16 @@ class _HomeScreenState extends State<HomeScreen> {
           return Column(
             children: [
               const SizedBox(height: 10),
-
               Expanded(
                 flex: 4,
                 child: Center(
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(
-                          caller.profilePic.isNotEmpty
-                              ? caller.profilePic
-                              : AppAssets.userUrl,
-                        ),
-                      ),
-
-                      Positioned(
-                        right: 2,
-                        bottom: 2,
-                        child: Container(
-                          width: 12,
-                          height: 12,
-                          decoration: BoxDecoration(
-                            color: caller.isOnline == true
-                                ? AppColors.success
-                                : Colors.grey,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: VoiclyAvatar(
+                    imageUrl: caller.profilePic.isNotEmpty
+                        ? caller.profilePic
+                        : AppAssets.userUrl,
+                    isOnline: caller.isOnline ?? false,
+                    onTap: () =>
+                        Get.bottomSheet(ProfileSheet(callerModel: caller)),
                   ),
                 ),
               ),
@@ -332,36 +294,16 @@ class _HomeScreenState extends State<HomeScreen> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: GlassContainer(
-            // padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             child: Row(
               children: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(
-                        caller.profilePic.isNotEmpty
-                            ? caller.profilePic
-                            : AppAssets.userUrl,
-                      ),
-                    ),
-                    Positioned(
-                      right: 2,
-                      bottom: 2,
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          // Dynamic status color
-                          color: caller.isOnline == true
-                              ? AppColors.success
-                              : Colors.grey,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                      ),
-                    ),
-                  ],
+                VoiclyAvatar(
+                  radius: 30,
+                  imageUrl: caller.profilePic.isNotEmpty
+                      ? caller.profilePic
+                      : AppAssets.userUrl,
+                  isOnline: caller.isOnline ?? false,
+                  onTap: () =>
+                      Get.bottomSheet(ProfileSheet(callerModel: caller)),
                 ),
                 const SizedBox(width: 15),
 
