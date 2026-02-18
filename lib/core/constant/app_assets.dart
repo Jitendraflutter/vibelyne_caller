@@ -1,5 +1,5 @@
 class AppAssets {
-  static const String logo = 'assets/images/logo.webp';
+  static const String logo = 'assets/images/voicly.webp';
   static const String appName = 'assets/images/app_name.webp';
   static const String background = 'assets/images/background.jpg';
   static const String iconHome = 'assets/icons/home.svg';
