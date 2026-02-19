@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 
 
 class BaseAuthLayout extends StatelessWidget {

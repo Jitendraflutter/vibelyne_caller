@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
-
+import 'package:voicly/widget/screen_wrapper.dart';
 
 class BecomeCallerScreen extends StatelessWidget {
   const BecomeCallerScreen({super.key});
@@ -28,7 +28,7 @@ class BecomeCallerScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white, // Required for ShaderMask
+                  color: AppColors.onBackground, // Required for ShaderMask
                   letterSpacing: -0.5,
                 ),
               ),
@@ -124,7 +124,7 @@ class BecomeCallerScreen extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.onBackground,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
@@ -157,7 +157,7 @@ class BecomeCallerScreen extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.onBackground,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

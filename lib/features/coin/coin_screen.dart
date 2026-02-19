@@ -7,7 +7,7 @@ import 'package:voicly/features/coin/widget/point_card.dart';
 import '../../controller/coin_controller.dart';
 import '../../networks/auth_services.dart';
 import 'package:voicly/core/constant/app_assets.dart';
-
+import 'package:voicly/widget/screen_wrapper.dart';
 
 class CoinScreen extends StatelessWidget {
   const CoinScreen({super.key});
@@ -96,17 +96,20 @@ class CoinScreen extends StatelessWidget {
           childAspectRatio: 0.82,
         ),
         itemCount: filtered.length,
-        itemBuilder: (context, index) => Obx(
-          () => EnhancedCoinCard(
-            pack: filtered[index],
-            isSelected: controller.selectedPack?.id == filtered[index].id,
-            onTap: () {
-              // Find global index to update controller
-              int globalIdx = controller.pointPacks.indexOf(filtered[index]);
-              controller.selectedIndex.value = globalIdx;
-            },
-          ),
-        ),
+        itemBuilder: (context, index) {
+          final pack = filtered[index];
+          return Obx(() {
+            bool isSelected = controller.selectedPack?.id == pack.id;
+            return EnhancedCoinCard(
+              pack: filtered[index],
+              isSelected: controller.selectedPack?.id == filtered[index].id,
+              onTap: () {
+                int globalIdx = controller.pointPacks.indexOf(pack);
+                controller.selectedIndex.value = globalIdx;
+              },
+            );
+          });
+        },
       ),
     ];
   }

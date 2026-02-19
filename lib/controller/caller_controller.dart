@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
@@ -72,7 +73,7 @@ class CallController extends GetxController {
         'status': 'calling',
       }, SetOptions(merge: true));
     } catch (e) {
-      print("Firestore reset error: $e");
+      debugPrint("Firestore reset error: $e");
     }
 
     _listenToCallStatus();
@@ -122,7 +123,7 @@ class CallController extends GetxController {
       _engine.registerEventHandler(
         RtcEngineEventHandler(
           onJoinChannelSuccess: (connection, elapsed) {
-            print("Joined Agora: ${connection.channelId}");
+            debugPrint("Joined Agora: ${connection.channelId}");
           },
 
           onUserJoined: (connection, remoteUid, elapsed) async {
@@ -137,7 +138,7 @@ class CallController extends GetxController {
           },
 
           onConnectionStateChanged: (connection, state, reason) {
-            print("Agora state: $state reason: $reason");
+            debugPrint("Agora state: $state reason: $reason");
 
             if (state == ConnectionStateType.connectionStateDisconnected &&
                 reason !=
@@ -163,7 +164,7 @@ class CallController extends GetxController {
           },
 
           onError: (err, msg) {
-            print("Agora error: $err — $msg");
+            debugPrint("Agora error: $err — $msg");
           },
         ),
       );
@@ -182,7 +183,7 @@ class CallController extends GetxController {
 
       _engineInitialized = true;
     } catch (e) {
-      print("Agora init error: $e");
+      debugPrint("Agora init error: $e");
       endCall();
     }
   }

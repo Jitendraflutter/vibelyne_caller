@@ -13,10 +13,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+#  core:
+#    git:
+#      url: https://github.com/Jitendraflutter/voicly_core_package.git
+#      ref: main #
+
   core:
-    git:
-      url: https://github.com/Jitendraflutter/voicly_core_package.git
-      ref: main #
+     path: ../../voicly_core_package
+
 
 
   # The following adds the Cupertino Icons font to your application.

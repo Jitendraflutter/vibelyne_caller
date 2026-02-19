@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:voicly/controller/auth/update_user_profile_controller.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:core/core.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 
 class ProfileUpdateScreen extends StatelessWidget {
   const ProfileUpdateScreen({super.key});

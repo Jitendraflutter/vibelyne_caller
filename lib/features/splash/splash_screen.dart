@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:voicly/controller/splash_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 import 'package:core/core.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
+
 
 class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});

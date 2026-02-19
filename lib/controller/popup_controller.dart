@@ -82,7 +82,7 @@ class PopupController extends GetxController {
 
   @override
   void onClose() {
-    _autoTriggerTimer?.cancel(); // Auto dispose timer
+    _autoTriggerTimer?.cancel();
     super.onClose();
   }
 }

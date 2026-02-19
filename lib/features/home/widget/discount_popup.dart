@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controller/popup_controller.dart';
+import '../../../core/route/routes.dart';
 import '../model/popup_model.dart';
 import 'package:core/core.dart';
-
 
 class DynamicPopup extends StatelessWidget {
   final PopupModel data;
@@ -58,7 +58,17 @@ class DynamicPopup extends StatelessWidget {
                   _buildCenterContent(),
 
                   const SizedBox(height: 32),
-                  AppButton(text: data.btnText, onPressed: () {}),
+                  AppButton(
+                    text: data.btnText,
+                    onPressed: () {
+                      if (data.type == PopupType.discount) {
+                        Get.back();
+                        Get.toNamed(AppRoutes.COIN, arguments: data.price);
+                      } else {
+                        Get.back();
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

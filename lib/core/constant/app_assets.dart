@@ -4,10 +4,9 @@ class AppAssets {
   static const String background = 'assets/images/background.jpg';
   static const String iconHome = 'assets/icons/home.svg';
   static const String iconSettings = 'assets/icons/settings.svg';
-  static const String iconProfile =
-      'https://media.craiyon.com/2025-09-02/80FIRagZRPKWElqT1Uizmw.webp';
+
   static const String userUrl =
-      'https://media.craiyon.com/2025-07-08/k9Kv1qLpTZq79FsH0eFzKA.webp';
+      'https://firebasestorage.googleapis.com/v0/b/voicly-15ec0.firebasestorage.app/o/avatars%2Fdefault%2Favatar_32.webp?alt=media&token=dba2ac89-8f53-42aa-aadc-a701d1be8b8a';
 
   static const String vp = 'assets/images/vp.webp';
   static const String v = 'assets/images/v.webp';

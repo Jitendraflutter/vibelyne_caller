@@ -1,8 +1,9 @@
 import 'dart:ui';
+import 'package:core/widget/widget_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:core/core.dart';
-import 'package:voicly/widget/widget_wrapper.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 import '../../../model/caller_model.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 

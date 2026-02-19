@@ -9,8 +9,7 @@ import 'package:voicly/networks/auth_services.dart';
 import 'LogoutModal.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
-
-
+import 'package:voicly/widget/screen_wrapper.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -337,7 +336,7 @@ class ProfileScreen extends StatelessWidget {
                   radius: 50,
                   backgroundColor: Colors.white12,
                   backgroundImage: CachedNetworkImageProvider(
-                    imageUrl.isEmpty ? AppAssets.iconProfile : imageUrl,
+                    imageUrl.isEmpty ? AppAssets.userUrl : imageUrl,
                   ),
                 ),
               ),

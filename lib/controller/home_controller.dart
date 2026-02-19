@@ -4,6 +4,7 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:voicly/controller/popup_controller.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
@@ -12,11 +13,21 @@ import 'package:voicly/networks/cloud_function_services.dart';
 class HomeController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  final authService = Get.find<AuthService>();
+  final popupController = Get.find<PopupController>();
+
   // Observable list of callers
   RxList<CallerModel> callers = <CallerModel>[].obs;
   final cloudService = Get.put(CloudFunctionService());
   final auth = Get.find<AuthService>();
   void startCall(CallerModel user) async {
+    num currentPoints = auth.currentUser.value?.points ?? 0;
+
+    if (currentPoints < 5) {
+      popupController.showWelcomePopupWithDelay(seconds: 0, popupIndex: 1);
+      return;
+    }
+
     bool allowed = await _handlePermission();
     if (!allowed) return;
     String channelId = "call_${auth.currentUser.value?.uid ?? ""}_${user.uid}";

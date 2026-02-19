@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-
 import '../features/coin/model/point_pack_model.dart';
 
 class CoinController extends GetxController {
@@ -25,10 +24,13 @@ class CoinController extends GetxController {
           .orderBy('display_order')
           .get();
 
-      // Convert JSON list to Model list
+      // 1. Load the data
       pointPacks.value = snapshot.docs
           .map((doc) => PointPackModel.fromFirestore(doc.data(), doc.id))
           .toList();
+
+      // 2. Handle Auto-Selection from arguments
+      // _handleInitialSelection();
     } catch (e) {
       Get.snackbar("Error", "Could not load packages");
     } finally {
@@ -36,6 +38,18 @@ class CoinController extends GetxController {
     }
   }
 
+  void _handleInitialSelection() {
+    if (Get.arguments != null && Get.arguments is int) {
+      int passedIndex = Get.arguments;
+      // Check bounds to prevent crashes
+      if (passedIndex >= 0 && passedIndex < pointPacks.length) {
+        selectedIndex.value = passedIndex;
+      }
+    }
+  }
+
   PointPackModel? get selectedPack =>
-      selectedIndex.value == -1 ? null : pointPacks[selectedIndex.value];
+      (selectedIndex.value >= 0 && selectedIndex.value < pointPacks.length)
+      ? pointPacks[selectedIndex.value]
+      : null;
 }

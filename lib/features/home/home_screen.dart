@@ -10,6 +10,7 @@ import 'package:voicly/features/home/widget/match_dialog.dart';
 import 'package:voicly/features/home/widget/profile_sheet.dart';
 import 'package:voicly/model/caller_model.dart';
 import 'package:voicly/networks/auth_services.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
 import '../../controller/banner_controller.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
@@ -89,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildHistoryButton("Your Companions"),
 
           Obx(() => _buildListView(_controller.callers)),
-          // _buildTopIcons(),
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
+
 
 class BlockedUsersScreen extends StatelessWidget {
   const BlockedUsersScreen({super.key});

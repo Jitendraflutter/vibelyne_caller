@@ -1,3 +1,69 @@
+import 'package:core/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:voicly/features/call/mini_call_overlay.dart';
+
+class ScreenWrapper extends StatelessWidget {
+  final Widget child;
+  final String? title;
+  final bool visibleAppBar;
+  const ScreenWrapper({
+    super.key,
+    required this.child,
+    this.title,
+    this.visibleAppBar = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final statusBar = MediaQuery.of(context).padding.top;
+
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: AppColors.mainScreenBackground,
+          ),
+        ),
+
+        Container(
+          decoration: const BoxDecoration(gradient: AppColors.topLeftGlow),
+        ),
+
+        Container(
+          decoration: BoxDecoration(gradient: AppColors.topRightGlow),
+        ),
+
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: visibleAppBar
+              ? AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  leading: const BackButton(color: Colors.white),
+                  title: Text(
+                    title ?? '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  centerTitle: true,
+                )
+              : null,
+          body: SafeArea(child: child),
+        ),
+        const Positioned(
+          bottom: 10,
+          left: 0,
+          right: 0,
+          child: MiniCallOverlay(),
+        ),
+      ],
+    );
+  }
+}
+
+/*
 import 'package:flutter/material.dart';
 import 'package:voicly/features/call/mini_call_overlay.dart';
 
@@ -92,3 +158,4 @@ class ScreenWrapper extends StatelessWidget {
     );
   }
 }
+*/
