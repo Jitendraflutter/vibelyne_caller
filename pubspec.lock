@@ -164,9 +164,11 @@ packages:
   core:
     dependency: "direct main"
     description:
-      path: "../../packages/core"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "3a1694fd49b5591201804aeea8b56de30e47f742"
+      url: "https://github.com/Jitendraflutter/voicly_core_package.git"
+    source: git
     version: "0.0.1"
   crypto:
     dependency: transitive
