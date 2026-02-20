@@ -2,8 +2,8 @@ class PointPackModel {
   final String id;
   final String title;
   final String description;
-  final int price;
-  final int? originalPrice;
+  final num? price;
+  final num? originalPrice;
   final int points;
   final String category;
   final String? discountPercent;
@@ -28,13 +28,16 @@ class PointPackModel {
   });
 
   // Factory constructor to create a model from Firestore document data
-  factory PointPackModel.fromFirestore(Map<String, dynamic> json, String docId) {
+  factory PointPackModel.fromFirestore(
+    Map<String, dynamic> json,
+    String docId,
+  ) {
     return PointPackModel(
       id: docId,
       title: json['title'] ?? '',
       description: json['description'] ?? '',
-      price: json['price']?.toInt() ?? 0,
-      originalPrice: json['original_price']?.toInt(),
+      price: json['price'],
+      originalPrice: json['original_price'],
       points: json['points']?.toInt() ?? 0,
       category: json['category'] ?? 'starter',
       discountPercent: json['discount_percent'],

@@ -13,13 +13,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-#  core:
-#    git:
-#      url: https://github.com/Jitendraflutter/voicly_core_package.git
-#      ref: main #
-
   core:
-     path: ../../voicly_core_package
+    git:
+      url: https://github.com/Jitendraflutter/voicly_core_package.git
+      ref: main #
+
+#  core:
+#     path: ../../voicly_core_package
 
 
 
@@ -47,6 +47,7 @@ dependencies:
   firebase_storage: ^13.0.6
   flutter_callkit_incoming: ^3.0.0
   url_launcher: ^6.3.2
+  razorpay_flutter: ^1.4.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,13 +1,15 @@
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:core/core.dart';
+import 'package:voicly/controller/payment/payment_controller.dart';
+import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/features/coin/widget/point_card.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
+
 import '../../controller/coin_controller.dart';
 import '../../networks/auth_services.dart';
-import 'package:voicly/core/constant/app_assets.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
 
 class CoinScreen extends StatelessWidget {
   const CoinScreen({super.key});
@@ -175,9 +177,9 @@ class CoinScreen extends StatelessWidget {
       final bool hasSelection = selected != null;
 
       // Calculate savings if original price exists
-      int savings = 0;
+      num? savings = 0;
       if (hasSelection && selected.originalPrice != null) {
-        savings = selected.originalPrice! - selected.price;
+        savings = selected.originalPrice! - selected.price!;
       }
 
       return Align(
@@ -265,7 +267,16 @@ class CoinScreen extends StatelessWidget {
                               : AppButton(
                                   width: MediaQuery.sizeOf(context).width / 2,
                                   text: 'Purchase Now',
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    final paymentCtr = Get.put(
+                                      PaymentController(),
+                                    );
+                                    paymentCtr.openCheckout(
+                                      selected?.price ?? 0,
+                                      selected?.points ?? 0,
+                                      selected?.id ?? "",
+                                    );
+                                  },
                                 );
                         }),
                       ],

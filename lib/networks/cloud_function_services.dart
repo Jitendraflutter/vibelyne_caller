@@ -33,6 +33,25 @@ class CloudFunctionService extends GetxService {
     }
   }
 
+  Future<Map<String, dynamic>?> createRazorpayOrder({
+    required num amount,
+    required String uid,
+  }) async {
+    try {
+      // 1. Point to your specific Cloud Function
+      final callable = _functions.httpsCallable('createRazorpayOrder');
+
+      // 2. Execute the call with the parameters
+      final response = await callable.call({'amount': amount, 'uid': uid});
+
+      // 3. Safely cast the response data to a Dart Map
+      return Map<String, dynamic>.from(response.data);
+    } catch (e) {
+      print("🚨 Error calling createRazorpayOrder: $e");
+      return null;
+    }
+  }
+
   /// Returns [true] if successful, [false] if low balance/error.
   Future<bool> deductCallPoints({
     required String channelId,
