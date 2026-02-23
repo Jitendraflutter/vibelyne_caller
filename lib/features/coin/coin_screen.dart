@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/payment/payment_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/coin/widget/point_card.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
@@ -122,45 +123,57 @@ class CoinScreen extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6.0),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withOpacity(0.3)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Current Balance",
-                    style: TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
+        child: InkWell(
+          onTap: () {
+            Get.toNamed(AppRoutes.TRANSACTION);
+          },
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6.0),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withOpacity(0.3)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Current Balance",
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
 
-                  Obx(() {
-                    final user = auth.currentUser.value;
-                    return Text(
-                      "${(auth.currentUser.value?.points ?? 0).toString()} VP",
+                    Obx(() {
+                      return Text(
+                        "${(auth.currentUser.value?.points ?? 0).toString()} VP",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.onBackground,
+                        ),
+                      );
+                    }),
+                    Text(
+                      "View transaction history ->",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.onBackground,
+                        color: Colors.grey.shade400,
                       ),
-                    );
-                  }),
-                ],
-              ),
-              Image.asset(
-                AppAssets.vp,
-                width: 80,
-                height: 80,
-                fit: BoxFit.contain,
-              ),
-            ],
+                    ),
+                  ],
+                ),
+                Image.asset(
+                  AppAssets.vp,
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
           ),
         ),
       ),

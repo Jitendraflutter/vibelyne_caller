@@ -48,6 +48,7 @@ dependencies:
   flutter_callkit_incoming: ^3.0.0
   url_launcher: ^6.3.2
   razorpay_flutter: ^1.4.1
+  firebase_app_check: ^0.4.1+4
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/networks/auth_services.dart';
 import 'package:voicly/networks/cloud_function_services.dart';
 
@@ -30,7 +31,6 @@ class PaymentController extends GetxController {
         uid: authService.currentUser.value!.uid,
       );
 
-      // 🟢 2. Check if the server successfully returned the data
       if (responseData != null && responseData['success'] == true) {
         final String orderId = responseData['orderId'];
 
@@ -64,8 +64,7 @@ class PaymentController extends GetxController {
       "Processing",
       "Payment received. Updating your wallet securely...",
     );
-
-    // The Webhook is currently running in the background adding the points.
+    Get.offNamedUntil(AppRoutes.HOME, (route) => false);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

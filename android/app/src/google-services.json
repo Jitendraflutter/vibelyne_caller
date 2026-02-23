@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:362367116949:android:55ebbd4d70acc0b1365d9c",
+        "android_client_info": {
+          "package_name": "com.voicly.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsIXIzQEr92hnZ69TBbM4-itolEsBm-KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "362367116949-d3ue7v3snbq5oe3rpgok7uqc8r7uqbam.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.voicly.admin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:362367116949:android:1f84894cb64b2848365d9c",
         "android_client_info": {
           "package_name": "com.voicly.app"
@@ -45,6 +81,13 @@
             {
               "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "362367116949-d3ue7v3snbq5oe3rpgok7uqc8r7uqbam.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.voicly.admin"
+              }
             }
           ]
         }
@@ -90,6 +133,13 @@
             {
               "client_id": "362367116949-m73kdb8vaqgjmitmjbruvnp1t5kbklna.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "362367116949-d3ue7v3snbq5oe3rpgok7uqc8r7uqbam.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.voicly.admin"
+              }
             }
           ]
         }

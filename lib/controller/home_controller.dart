@@ -4,6 +4,7 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:uuid/uuid.dart';
 import 'package:voicly/controller/popup_controller.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/model/caller_model.dart';
@@ -30,7 +31,9 @@ class HomeController extends GetxController {
 
     bool allowed = await _handlePermission();
     if (!allowed) return;
-    String channelId = "call_${auth.currentUser.value?.uid ?? ""}_${user.uid}";
+
+    final uuid = Uuid();
+    String channelId = uuid.v4();
     Get.context?.loaderOverlay.show();
     final result = await cloudService.initiateCall(
       receiverToken: user.fcmToken ?? "",

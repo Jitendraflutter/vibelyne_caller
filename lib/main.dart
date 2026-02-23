@@ -1,9 +1,11 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:voicly/core/utils/notification_service.dart';
 import 'package:voicly/core/utils/service_locator.dart';
+
 import 'app.dart';
 
 void main() async {
@@ -13,6 +15,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+    // Set androidProvider to `AndroidProvider.debug`
+    providerAndroid: AndroidDebugProvider(),
+  );
   await GetStorage.init();
   setupFlutterNotifications();
   await ServiceLocator.init();
