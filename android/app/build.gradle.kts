@@ -30,6 +30,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
 
     }
 
@@ -44,6 +47,8 @@ android {
         }
 
     }
+
+
 }
 
 flutter {
@@ -61,4 +66,16 @@ dependencies {
     implementation("com.google.firebase:firebase-functions")
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
+}
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "io.agora.rtc") {
+                // ONLY replace the massive "full-sdk", leave everything else alone!
+                if (requested.name == "full-sdk") {
+                    useTarget("io.agora.rtc:full-rtc-basic:${requested.version}")
+                }
+            }
+        }
+    }
 }
